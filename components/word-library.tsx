@@ -91,7 +91,11 @@ export function WordLibrary({
           onValueChange={(value) => setType(value as WordType | 'all')}
         >
           <SelectTrigger className="h-8" size="sm">
-            <SelectValue />
+            <SelectValue>
+              {(value: WordType | 'all') =>
+                value === 'all' ? 'Alle Wortarten' : TYPE_LABEL[value]
+              }
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Alle Wortarten</SelectItem>

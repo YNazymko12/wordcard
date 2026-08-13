@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { BadgeCheck, BookOpen, Clock } from 'lucide-react'
+import { BookOpen, Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { StatCard } from '@/components/stat-card'
@@ -11,7 +11,6 @@ export default async function LibraryPage() {
   const lang = await getLang()
 
   const dueCount = WORDS.filter((word) => word.dueForReview).length
-  const verifiedCount = WORDS.filter((word) => word.verified).length
 
   return (
     <div className="flex flex-col gap-6">
@@ -24,10 +23,9 @@ export default async function LibraryPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-3">
         <StatCard icon={Clock} value={dueCount} label="Zu wiederholen" accent />
         <StatCard icon={BookOpen} value={WORDS.length} label="Wörter gesamt" />
-        <StatCard icon={BadgeCheck} value={verifiedCount} label="Geprüft" />
       </div>
 
       {dueCount > 0 && (
@@ -40,7 +38,7 @@ export default async function LibraryPage() {
               Halte deinen Rhythmus mit einer kurzen Lernsitzung.
             </p>
           </div>
-          <Button render={<Link href="/study" />}>
+          <Button nativeButton={false} render={<Link href="/study" />}>
             <BookOpen data-icon="inline-start" />
             Jetzt lernen
           </Button>

@@ -33,7 +33,6 @@ export interface Word {
   preposition?: { prep: string; case: GermanCase }
   examples: ExampleSentence[]
   notes?: string
-  verified: boolean
   dueForReview: boolean
 }
 
@@ -67,6 +66,12 @@ export const ARTICLE_LABEL: Record<Article, string> = {
   der: 'maskulin',
   die: 'feminin',
   das: 'neutral',
+}
+
+export const ARTICLE_COLOR: Record<Article, string> = {
+  der: 'text-primary',
+  die: 'text-[var(--chart-5)]',
+  das: 'text-teal',
 }
 
 export const TYPE_LABEL: Record<WordType, string> = {
@@ -107,7 +112,6 @@ export const WORDS: Word[] = [
     ],
     notes:
       'Plural: die Häuser. Häufig in Komposita: das Krankenhaus, das Rathaus.',
-    verified: true,
     dueForReview: true,
   },
   {
@@ -139,7 +143,6 @@ export const WORDS: Word[] = [
       },
     ],
     notes: 'Plural: die Hunde. Verkleinerung: das Hündchen.',
-    verified: true,
     dueForReview: false,
   },
   {
@@ -171,7 +174,6 @@ export const WORDS: Word[] = [
       },
     ],
     notes: 'Plural: die Katzen.',
-    verified: false,
     dueForReview: true,
   },
   {
@@ -212,7 +214,6 @@ export const WORDS: Word[] = [
       },
     ],
     notes: 'Bewegungsverb — Perfekt mit „sein“. Unregelmäßig.',
-    verified: true,
     dueForReview: false,
   },
   {
@@ -250,7 +251,6 @@ export const WORDS: Word[] = [
       },
     ],
     notes: 'Regelmäßiges Verb. „warten auf“ verlangt den Akkusativ.',
-    verified: false,
     dueForReview: true,
   },
   {
@@ -282,7 +282,6 @@ export const WORDS: Word[] = [
       },
     ],
     notes: 'Abstraktes Nomen. Nachsilbe „-heit“ ist immer feminin.',
-    verified: true,
     dueForReview: true,
   },
 ]

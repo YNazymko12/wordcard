@@ -5,18 +5,12 @@ import { Card } from '@/components/ui/card'
 import { LevelBadge } from '@/components/vocab-badges'
 import { cn } from '@/lib/utils'
 import {
+  ARTICLE_COLOR,
   translate,
   TYPE_LABEL,
-  type Article,
   type TargetLang,
   type Word,
 } from '@/lib/vocab'
-
-const ARTICLE_COLOR: Record<Article, string> = {
-  der: 'text-primary',
-  die: 'text-[var(--chart-5)]',
-  das: 'text-teal',
-}
 
 export function WordCard({ word, lang }: { word: Word; lang: TargetLang }) {
   return (
@@ -30,11 +24,12 @@ export function WordCard({ word, lang }: { word: Word; lang: TargetLang }) {
             sizes="(max-width: 640px) 50vw, 240px"
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
-          <div className="absolute top-2 right-2">
-            <LevelBadge level={word.level} className="shadow-sm" />
-          </div>
+          <LevelBadge
+            level={word.level}
+            className="absolute top-2 right-2 shadow-sm"
+          />
           {word.dueForReview && (
-            <span className="absolute top-2 left-2 flex items-center gap-1 rounded-full bg-background/85 px-2 py-0.5 text-[10px] font-medium backdrop-blur">
+            <span className="absolute bottom-2 left-2 inline-flex h-5 items-center gap-1 rounded-full bg-background/85 px-2 text-[10px] font-medium backdrop-blur sm:top-2 sm:bottom-auto">
               <Clock className="size-3" />
               Fällig
             </span>
