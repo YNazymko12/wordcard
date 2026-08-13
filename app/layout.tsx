@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Geist, Plus_Jakarta_Sans } from 'next/font/google'
 import { cn } from '@/lib/utils'
+import { getLang } from '@/lib/lang'
+import { LangProvider } from '@/components/lang-provider'
 import { ThemeProvider } from '@/components/theme-provider'
 import { AppShell } from '@/components/app-shell'
 import './globals.css'
@@ -21,7 +23,9 @@ export const metadata: Metadata = {
     'Vokabelkarten für Deutsch: Artikel, Verbformen, CEFR-Niveau und Beispielsätze.',
 }
 
-export default function RootLayout({ children }: LayoutProps<'/'>) {
+export default async function RootLayout({ children }: LayoutProps<'/'>) {
+  const lang = await getLang()
+
   return (
     <html
       lang="de"
@@ -35,7 +39,9 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
           enableSystem
           disableTransitionOnChange
         >
-          <AppShell>{children}</AppShell>
+          <LangProvider lang={lang}>
+            <AppShell>{children}</AppShell>
+          </LangProvider>
         </ThemeProvider>
       </body>
     </html>

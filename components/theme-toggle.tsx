@@ -11,6 +11,9 @@ const MODES = [
   { value: 'system', label: 'Automatisch', icon: Monitor },
 ]
 
+const ACTIVE_ITEM =
+  'aria-pressed:bg-primary aria-pressed:text-primary-foreground aria-pressed:hover:bg-primary/90 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground'
+
 const emptySubscribe = () => () => {}
 
 function useMounted() {
@@ -42,6 +45,7 @@ export function ThemeToggle() {
           value={value}
           aria-label={label}
           title={label}
+          className={ACTIVE_ITEM}
         >
           <Icon />
         </ToggleGroupItem>

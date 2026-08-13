@@ -11,6 +11,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { ThemeToggle } from '@/components/theme-toggle'
+import { LangToggle } from '@/components/lang-toggle'
 
 const NAV = [
   { href: '/', label: 'Bibliothek', icon: LayoutGrid },
@@ -25,7 +26,7 @@ function Logo() {
       <div className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm shadow-primary/30">
         <Sparkles className="size-5" />
       </div>
-      <div className="leading-tight">
+      <div className="hidden leading-tight sm:block">
         <p className="font-display text-lg font-bold tracking-tight">
           Wortkarte
         </p>
@@ -50,7 +51,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <Logo />
         </div>
 
-        <nav className="mt-8 flex flex-1 flex-col gap-1">
+        <nav
+          aria-label="Hauptnavigation"
+          className="mt-8 flex flex-1 flex-col gap-1"
+        >
           {NAV.map(({ href, label, icon: Icon }) => (
             <Link
               key={href}
@@ -62,18 +66,34 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   : 'text-muted-foreground hover:bg-secondary hover:text-foreground',
               )}
             >
-              <Icon className="size-[18px]" />
+              <Icon className="size-4.5" />
               {label}
             </Link>
           ))}
         </nav>
 
-        <ThemeToggle />
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-1.5">
+            <span className="px-1 text-xs font-medium text-muted-foreground">
+              Übersetzung
+            </span>
+            <LangToggle />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <span className="px-1 text-xs font-medium text-muted-foreground">
+              Design
+            </span>
+            <ThemeToggle />
+          </div>
+        </div>
       </aside>
 
       <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-background/80 px-4 py-3 backdrop-blur lg:hidden">
         <Logo />
-        <ThemeToggle />
+        <div className="flex items-center gap-2">
+          <LangToggle />
+          <ThemeToggle />
+        </div>
       </header>
 
       <main className="lg:pl-64">
@@ -82,7 +102,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </main>
 
-      <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-4 border-t border-border bg-background/90 backdrop-blur lg:hidden">
+      <nav
+        aria-label="Hauptnavigation"
+        className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-4 border-t border-border bg-background/90 backdrop-blur lg:hidden"
+      >
         {NAV.map(({ href, label, icon: Icon }) => (
           <Link
             key={href}
