@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Geist, Plus_Jakarta_Sans } from 'next/font/google'
 import { cn } from '@/lib/utils'
 import { ThemeProvider } from '@/components/theme-provider'
+import { AppShell } from '@/components/app-shell'
 import './globals.css'
 
 const geist = Geist({
@@ -34,7 +35,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <AppShell>{children}</AppShell>
         </ThemeProvider>
       </body>
     </html>
