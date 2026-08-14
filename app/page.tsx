@@ -29,7 +29,7 @@ export default async function LibraryPage() {
       </div>
 
       {dueCount > 0 && (
-        <Card className="flex-row items-center justify-between gap-4 border-primary/20 bg-gradient-to-r from-primary/10 to-teal/5 p-4">
+        <Card className="flex-row items-center justify-between gap-4 border-primary/20 bg-linear-to-r from-primary/10 to-teal/5 p-4">
           <div>
             <p className="font-display font-semibold">
               {dueCount} Karten warten auf dich

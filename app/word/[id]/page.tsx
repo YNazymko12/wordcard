@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, ChevronDown, Lightbulb, Quote } from 'lucide-react'
+import { ArrowLeft, ChevronDown, Lightbulb } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -22,6 +22,7 @@ import { LevelBadge, TypeBadge } from '@/components/vocab-badges'
 import { getLang } from '@/lib/lang'
 import { cn } from '@/lib/utils'
 import { ARTICLE_COLOR, ARTICLE_LABEL, getWord, translate } from '@/lib/vocab'
+import { PronounceButton } from '@/components/pronounce-button'
 
 export async function generateMetadata({
   params,
@@ -63,16 +64,19 @@ export default async function WordPage({ params }: PageProps<'/word/[id]'>) {
             className="object-cover"
             priority
           />
-          <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/75 via-black/30 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-28 bg-linear-to-t from-black/75 via-black/30 to-transparent" />
           <div className="absolute top-3 right-3">
             <LevelBadge level={word.level} className="h-6 px-2.5 shadow-sm" />
           </div>
-          <h1 className="absolute inset-x-4 bottom-3 font-display text-3xl font-bold tracking-tight text-white drop-shadow-sm sm:text-4xl">
-            {word.article && (
-              <span className="opacity-90">{word.article} </span>
-            )}
-            {word.word}
-          </h1>
+          <div className="absolute inset-x-4 bottom-3 flex items-end justify-between gap-3">
+            <h1 className="font-display text-3xl font-bold tracking-tight text-white drop-shadow-sm sm:text-4xl">
+              {word.article && (
+                <span className="opacity-90">{word.article} </span>
+              )}
+              {word.word}
+            </h1>
+            <PronounceButton text={word.word} variant="secondary" />
+          </div>
         </div>
 
         <CardContent className="flex flex-col gap-5 p-5">
@@ -153,8 +157,11 @@ export default async function WordPage({ params }: PageProps<'/word/[id]'>) {
                   key={example.de}
                   className="relative rounded-xl border-l-2 border-primary bg-secondary/40 py-3 pr-3 pl-4"
                 >
-                  <Quote className="absolute top-3 right-3 size-4 text-primary/25" />
-                  <blockquote className="leading-snug font-medium">
+                  <PronounceButton
+                    text={example.de}
+                    className="absolute top-1.5 right-1.5"
+                  />
+                  <blockquote className="pr-9 leading-snug font-medium">
                     {example.de}
                   </blockquote>
                   <figcaption className="mt-1 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
