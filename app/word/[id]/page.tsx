@@ -2,27 +2,17 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, ChevronDown, Lightbulb } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
 import { LevelBadge, TypeBadge } from '@/components/vocab-badges'
+import { PronounceButton } from '@/components/pronounce-button'
+import { WordGrammar } from '@/components/word-grammar'
+import { WordExamples } from '@/components/word-examples'
+import { WordNotes } from '@/components/word-notes'
 import { getLang } from '@/lib/lang'
 import { cn } from '@/lib/utils'
 import { ARTICLE_COLOR, ARTICLE_LABEL, getWord, translate } from '@/lib/vocab'
-import { PronounceButton } from '@/components/pronounce-button'
 
 export async function generateMetadata({
   params,
@@ -94,98 +84,11 @@ export default async function WordPage({ params }: PageProps<'/word/[id]'>) {
             <TypeBadge type={word.type} />
           </div>
 
-          <Collapsible defaultOpen>
-            <CollapsibleTrigger className="group flex w-full items-center justify-between rounded-xl bg-secondary/50 px-3 py-2.5 text-sm font-semibold transition-colors hover:bg-secondary">
-              Grammatik
-              <ChevronDown className="size-4 text-muted-foreground transition-transform group-data-[panel-open]:rotate-180" />
-            </CollapsibleTrigger>
-            <CollapsibleContent className="flex flex-col gap-3 pt-3">
-              {word.verb && (
-                <div className="overflow-hidden rounded-xl border border-border">
-                  <Table>
-                    <TableHeader>
-                      <TableRow className="bg-secondary/60">
-                        <TableHead>Infinitiv</TableHead>
-                        <TableHead>Präsens</TableHead>
-                        <TableHead>Präteritum</TableHead>
-                        <TableHead>Perfekt</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell className="font-medium">
-                          {word.verb.infinitive}
-                        </TableCell>
-                        <TableCell>{word.verb.present3rd}</TableCell>
-                        <TableCell>{word.verb.praeteritum}</TableCell>
-                        <TableCell className="font-medium text-primary">
-                          {word.verb.perfekt}
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </div>
-              )}
+          <WordGrammar word={word} />
 
-              {word.preposition && (
-                <div className="flex items-center gap-2 rounded-xl border border-teal/30 bg-teal/5 px-3 py-2.5 text-sm">
-                  <span className="font-semibold text-teal">
-                    {word.preposition.prep}
-                  </span>
-                  <span className="text-muted-foreground">+</span>
-                  <span className="font-medium">{word.preposition.case}</span>
-                </div>
-              )}
+          <WordExamples examples={word.examples} lang={lang} />
 
-              {!word.verb && !word.preposition && (
-                <p className="text-sm text-muted-foreground">
-                  {word.article
-                    ? `Nomen · ${word.article} (${ARTICLE_LABEL[word.article]})`
-                    : 'Keine weiteren grammatischen Hinweise.'}
-                </p>
-              )}
-            </CollapsibleContent>
-          </Collapsible>
-
-          <div className="flex flex-col gap-2">
-            <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
-              Beispiele
-            </p>
-            <div className="flex flex-col gap-3">
-              {word.examples.map((example) => (
-                <figure
-                  key={example.de}
-                  className="relative rounded-xl border-l-2 border-primary bg-secondary/40 py-3 pr-3 pl-4"
-                >
-                  <PronounceButton
-                    text={example.de}
-                    className="absolute top-1.5 right-1.5"
-                  />
-                  <blockquote className="pr-9 leading-snug font-medium">
-                    {example.de}
-                  </blockquote>
-                  <figcaption className="mt-1 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-                    <span>{translate(example.translations, lang)}</span>
-                    <span className="rounded-full bg-background px-1.5 py-0.5 text-[10px] font-medium">
-                      {example.tense}
-                    </span>
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
-          </div>
-
-          {word.notes && (
-            <div className="flex gap-3 rounded-xl border border-accent-foreground/15 bg-accent/50 p-3.5">
-              <Lightbulb className="size-4 shrink-0 text-accent-foreground" />
-              <div className="flex flex-col gap-0.5">
-                <p className="text-sm font-semibold text-accent-foreground">
-                  Notizen &amp; Besonderheiten
-                </p>
-                <p className="text-sm text-foreground/80">{word.notes}</p>
-              </div>
-            </div>
-          )}
+          {word.notes && <WordNotes notes={word.notes} />}
         </CardContent>
       </Card>
     </div>
