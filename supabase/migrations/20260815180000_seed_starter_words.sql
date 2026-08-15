@@ -104,3 +104,10 @@ create trigger on_auth_user_created_add_starter_words
   after insert on auth.users
   for each row
   execute function public.add_starter_words();
+
+insert into public.user_words (user_id, word_id)
+select u.id, w.id
+from auth.users u
+cross join public.words w
+where w.created_by is null
+on conflict do nothing;
