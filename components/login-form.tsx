@@ -1,10 +1,16 @@
 'use client'
 
-import { useActionState } from 'react'
-import { LogIn, UserPlus } from 'lucide-react'
+import { useActionState, useState } from 'react'
+import { Eye, EyeOff, LogIn, UserPlus } from 'lucide-react'
 import { authenticate, type AuthState } from '@/app/auth/actions'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from '@/components/ui/input-group'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
@@ -12,6 +18,7 @@ const INITIAL: AuthState = {}
 
 export function LoginForm() {
   const [state, formAction, pending] = useActionState(authenticate, INITIAL)
+  const [passwordVisible, setPasswordVisible] = useState(false)
 
   return (
     <Card className="w-full max-w-sm">
@@ -31,14 +38,29 @@ export function LoginForm() {
 
           <div className="flex flex-col gap-2">
             <Label htmlFor="password">Passwort</Label>
-            <Input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              minLength={6}
-              required
-            />
+            <InputGroup>
+              <InputGroupInput
+                id="password"
+                name="password"
+                type={passwordVisible ? 'text' : 'password'}
+                autoComplete="current-password"
+                minLength={6}
+                required
+              />
+              <InputGroupAddon align="inline-end">
+                <InputGroupButton
+                  type="button"
+                  variant="ghost"
+                  size="icon-xs"
+                  onClick={() => setPasswordVisible((visible) => !visible)}
+                  aria-label={
+                    passwordVisible ? 'Passwort verbergen' : 'Passwort anzeigen'
+                  }
+                >
+                  {passwordVisible ? <EyeOff /> : <Eye />}
+                </InputGroupButton>
+              </InputGroupAddon>
+            </InputGroup>
           </div>
 
           {state.error && (

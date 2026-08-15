@@ -4,7 +4,6 @@ import { cn } from '@/lib/utils'
 import { getLang } from '@/lib/lang'
 import { LangProvider } from '@/components/lang-provider'
 import { ThemeProvider } from '@/components/theme-provider'
-import { AppShell } from '@/components/app-shell'
 import { Toaster } from '@/components/ui/sonner'
 import './globals.css'
 
@@ -41,7 +40,7 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
           disableTransitionOnChange
         >
           <LangProvider lang={lang}>
-            <AppShell>{children}</AppShell>
+            {children}
             <Toaster position="top-center" />
           </LangProvider>
         </ThemeProvider>

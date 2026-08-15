@@ -6,12 +6,15 @@ import {
   BookOpen,
   ClipboardList,
   LayoutGrid,
+  LogOut,
   Plus,
   Sparkles,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { LangToggle } from '@/components/lang-toggle'
+import { signOut } from '@/app/auth/actions'
+import { Button } from '@/components/ui/button'
 
 const NAV = [
   { href: '/', label: 'Bibliothek', icon: LayoutGrid },
@@ -85,6 +88,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </span>
             <ThemeToggle />
           </div>
+
+          <form action={signOut}>
+            <Button
+              type="submit"
+              variant="ghost"
+              size="sm"
+              className="w-full justify-start text-muted-foreground"
+            >
+              <LogOut data-icon="inline-start" />
+              Abmelden
+            </Button>
+          </form>
         </div>
       </aside>
 
