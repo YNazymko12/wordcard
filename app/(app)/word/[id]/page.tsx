@@ -12,20 +12,21 @@ import { WordExamples } from '@/components/word-examples'
 import { WordNotes } from '@/components/word-notes'
 import { getLang } from '@/lib/lang'
 import { cn } from '@/lib/utils'
-import { ARTICLE_COLOR, ARTICLE_LABEL, getWord, translate } from '@/lib/vocab'
+import { getWordById } from '@/lib/words'
+import { ARTICLE_COLOR, ARTICLE_LABEL, translate } from '@/lib/vocab'
 
 export async function generateMetadata({
   params,
 }: PageProps<'/word/[id]'>): Promise<Metadata> {
   const { id } = await params
-  const word = getWord(id)
+  const word = await getWordById(id)
 
   return { title: word ? `${word.word} · Wortkarte` : 'Wortkarte' }
 }
 
 export default async function WordPage({ params }: PageProps<'/word/[id]'>) {
   const { id } = await params
-  const word = getWord(id)
+  const word = await getWordById(id)
 
   if (!word) notFound()
 

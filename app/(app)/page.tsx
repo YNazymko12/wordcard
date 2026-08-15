@@ -5,12 +5,13 @@ import { Card } from '@/components/ui/card'
 import { StatCard } from '@/components/stat-card'
 import { WordLibrary } from '@/components/word-library'
 import { getLang } from '@/lib/lang'
-import { WORDS } from '@/lib/vocab'
+import { getCollection } from '@/lib/words'
 
 export default async function LibraryPage() {
   const lang = await getLang()
+  const words = await getCollection()
 
-  const dueCount = WORDS.filter((word) => word.dueForReview).length
+  const dueCount = words.filter((word) => word.dueForReview).length
 
   return (
     <div className="flex flex-col gap-6">
@@ -19,13 +20,13 @@ export default async function LibraryPage() {
           Bibliothek
         </h1>
         <p className="text-sm text-muted-foreground">
-          {WORDS.length} Wörter in deiner Sammlung
+          {words.length} Wörter in deiner Sammlung
         </p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
         <StatCard icon={Clock} value={dueCount} label="Zu wiederholen" accent />
-        <StatCard icon={BookOpen} value={WORDS.length} label="Wörter gesamt" />
+        <StatCard icon={BookOpen} value={words.length} label="Wörter gesamt" />
       </div>
 
       {dueCount > 0 && (
@@ -45,7 +46,7 @@ export default async function LibraryPage() {
         </Card>
       )}
 
-      <WordLibrary words={WORDS} lang={lang} />
+      <WordLibrary words={words} lang={lang} />
     </div>
   )
 }
