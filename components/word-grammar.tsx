@@ -19,7 +19,7 @@ export function WordGrammar({ word }: { word: Word }) {
     <Collapsible defaultOpen>
       <CollapsibleTrigger className="group flex w-full items-center justify-between rounded-xl bg-secondary/50 px-3 py-2.5 text-sm font-semibold transition-colors hover:bg-secondary">
         Grammatik
-        <ChevronDown className="size-4 text-muted-foreground transition-transform group-data-[panel-open]:rotate-180" />
+        <ChevronDown className="size-4 text-muted-foreground transition-transform group-data-panel-open:rotate-180" />
       </CollapsibleTrigger>
       <CollapsibleContent className="flex flex-col gap-3 pt-3">
         {word.verb && (

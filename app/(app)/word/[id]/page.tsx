@@ -14,6 +14,7 @@ import { getLang } from '@/lib/lang'
 import { cn } from '@/lib/utils'
 import { getWordById } from '@/lib/words'
 import { ARTICLE_COLOR, ARTICLE_LABEL, translate } from '@/lib/vocab'
+import { RemoveWordButton } from '@/components/remove-word-button'
 
 export async function generateMetadata({
   params,
@@ -34,16 +35,20 @@ export default async function WordPage({ params }: PageProps<'/word/[id]'>) {
 
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-5">
-      <Button
-        variant="ghost"
-        size="sm"
-        className="-ml-2 w-fit"
-        nativeButton={false}
-        render={<Link href="/" />}
-      >
-        <ArrowLeft data-icon="inline-start" />
-        Zurück zur Bibliothek
-      </Button>
+      <div className="flex items-center justify-between">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="-ml-2 w-fit"
+          nativeButton={false}
+          render={<Link href="/" />}
+        >
+          <ArrowLeft data-icon="inline-start" />
+          Zurück zur Bibliothek
+        </Button>
+
+        <RemoveWordButton wordId={word.id} word={word.word} />
+      </div>
 
       <Card className="overflow-hidden p-0">
         <div className="relative aspect-16/10 bg-secondary">
