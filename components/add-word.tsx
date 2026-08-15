@@ -24,25 +24,24 @@ import {
   ARTICLE_COLOR,
   ARTICLE_LABEL,
   translate,
-  WORDS,
   type TargetLang,
   type Word,
 } from '@/lib/vocab'
 
 type Status = 'idle' | 'loading' | 'done'
 
-function fakeGenerate(query: string): Word {
+function fakeGenerate(query: string, words: Word[]): Word | null {
+  if (words.length === 0) return null
+
   const normalized = query.trim().toLowerCase()
 
   return (
-    WORDS.find(
-      (word) =>
-        word.word.toLowerCase() === normalized || word.id === normalized,
-    ) ?? WORDS[Math.floor(Math.random() * WORDS.length)]
+    words.find((word) => word.word.toLowerCase() === normalized) ??
+    words[Math.floor(Math.random() * words.length)]
   )
 }
 
-export function AddWord({ lang }: { lang: TargetLang }) {
+export function AddWord({ lang, words }: { lang: TargetLang; words: Word[] }) {
   const [query, setQuery] = useState('')
   const [status, setStatus] = useState<Status>('idle')
   const [result, setResult] = useState<Word | null>(null)
@@ -61,7 +60,7 @@ export function AddWord({ lang }: { lang: TargetLang }) {
     setResult(null)
 
     timer.current = setTimeout(() => {
-      setResult(fakeGenerate(query))
+      setResult(fakeGenerate(query, words))
       setStatus('done')
     }, 1500)
   }

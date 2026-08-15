@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { QuizSession } from '@/components/quiz-session'
 import { buildQuiz } from '@/lib/quiz'
 import { getLang } from '@/lib/lang'
-import { WORDS } from '@/lib/vocab'
+import { getCollection } from '@/lib/words'
 
 export const metadata: Metadata = {
   title: 'Test · Wortkarte',
@@ -10,7 +10,8 @@ export const metadata: Metadata = {
 
 export default async function QuizPage() {
   const lang = await getLang()
-  const questions = buildQuiz(WORDS, lang)
+  const words = await getCollection()
+  const questions = buildQuiz(words, lang)
 
   return <QuizSession questions={questions} />
 }
