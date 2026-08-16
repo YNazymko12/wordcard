@@ -15,6 +15,8 @@ import {
   type TargetLang,
   type Word,
 } from '@/lib/vocab'
+import { useRouter } from 'next/navigation'
+import { reviewWord } from '@/lib/actions/study'
 
 export function StudySession({
   deck,
@@ -28,11 +30,16 @@ export function StudySession({
   const [known, setKnown] = useState(0)
   const [done, setDone] = useState(false)
 
+  const router = useRouter()
+
   function next(gotIt: boolean) {
+    void reviewWord(card.id, gotIt)
+
     if (gotIt) setKnown((value) => value + 1)
 
     if (index + 1 >= deck.length) {
       setDone(true)
+      router.refresh()
       return
     }
 
@@ -150,7 +157,7 @@ export function StudySession({
             </span>
           </div>
 
-          <div className="absolute inset-0 flex [transform:rotateY(180deg)] flex-col items-center justify-center gap-5 rounded-3xl border border-primary/20 bg-linear-to-b from-primary/10 to-teal/5 p-8 [backface-visibility:hidden]">
+          <div className="absolute inset-0 flex transform-[rotateY(180deg)] flex-col items-center justify-center gap-5 rounded-3xl border border-primary/20 bg-linear-to-b from-primary/10 to-teal/5 p-8 [backface-visibility:hidden]">
             <p className="text-center font-display text-3xl font-bold tracking-tight text-primary">
               {translate(card.translations, lang)}
             </p>
