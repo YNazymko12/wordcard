@@ -11,6 +11,9 @@ export type GenerateResult =
 
 export type SaveResult = { ok: true; id: string } | { ok: false; error: string }
 
+const DAILY_LIMIT = 10
+const DAY_MS = 86_400_000
+
 export async function generateCardAction(
   input: string,
 ): Promise<GenerateResult> {
@@ -50,8 +53,26 @@ export async function generateCardAction(
     }
   }
 
+  const userId = auth.claims.sub
+
+  const { count } = await supabase
+    .from('generations')
+    .select('id', { count: 'exact', head: true })
+    .gte('created_at', new Date(Date.now() - DAY_MS).toISOString())
+
+  if ((count ?? 0) >= DAILY_LIMIT) {
+    return {
+      ok: false,
+      error: `Tageslimit erreicht: ${DAILY_LIMIT} neue Wörter pro Tag. Wörter aus der Bibliothek kannst du weiterhin hinzufügen.`,
+    }
+  }
+
   try {
-    return { ok: true, card: await generateCard(value), existingId: null }
+    const card = await generateCard(value)
+
+    await supabase.from('generations').insert({ user_id: userId, word: value })
+
+    return { ok: true, card, existingId: null }
   } catch {
     return { ok: false, error: 'Die Generierung ist fehlgeschlagen.' }
   }
