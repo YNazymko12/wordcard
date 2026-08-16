@@ -1,9 +1,11 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import Image from 'next/image'
+import { useState, useTransition } from 'react'
+import { useRouter } from 'next/navigation'
 import { PencilLine, Save, Sparkles } from 'lucide-react'
 import { toast } from 'sonner'
+import { generateCardAction, saveCardAction } from '@/lib/actions/generate'
+import type { GeneratedCard } from '@/lib/ai/card-schema'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -30,39 +32,64 @@ import {
 
 type Status = 'idle' | 'loading' | 'done'
 
-function fakeGenerate(query: string, words: Word[]): Word | null {
-  if (words.length === 0) return null
-
-  const normalized = query.trim().toLowerCase()
-
-  return (
-    words.find((word) => word.word.toLowerCase() === normalized) ??
-    words[Math.floor(Math.random() * words.length)]
-  )
+function toPreviewWord(card: GeneratedCard): Word {
+  return {
+    id: 'preview',
+    word: card.word,
+    article: card.article ?? undefined,
+    type: card.type,
+    level: card.level,
+    translations: card.translations,
+    image: '',
+    verb: card.verb ?? undefined,
+    preposition: card.preposition ?? undefined,
+    examples: card.examples,
+    notes: card.notes || undefined,
+    dueForReview: false,
+  }
 }
 
-export function AddWord({ lang, words }: { lang: TargetLang; words: Word[] }) {
+export function AddWord({ lang }: { lang: TargetLang }) {
   const [query, setQuery] = useState('')
   const [status, setStatus] = useState<Status>('idle')
-  const [result, setResult] = useState<Word | null>(null)
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [card, setCard] = useState<GeneratedCard | null>(null)
+  const [existingId, setExistingId] = useState<string | null>(null)
+  const [saving, startSaving] = useTransition()
+  const router = useRouter()
 
-  useEffect(() => {
-    return () => {
-      if (timer.current) clearTimeout(timer.current)
-    }
-  }, [])
-
-  function generate() {
+  async function generate() {
     if (!query.trim() || status === 'loading') return
 
     setStatus('loading')
-    setResult(null)
+    setCard(null)
 
-    timer.current = setTimeout(() => {
-      setResult(fakeGenerate(query, words))
-      setStatus('done')
-    }, 1500)
+    const result = await generateCardAction(query)
+
+    if (!result.ok) {
+      setStatus('idle')
+      toast.error(result.error)
+      return
+    }
+
+    setCard(result.card)
+    setExistingId(result.existingId)
+    setStatus('done')
+  }
+
+  function save() {
+    if (!card) return
+
+    startSaving(async () => {
+      const result = await saveCardAction(card, existingId)
+
+      if (!result.ok) {
+        toast.error(result.error)
+        return
+      }
+
+      toast.success(`„${card.word}“ gespeichert`)
+      router.push(`/word/${result.id}`)
+    })
   }
 
   return (
@@ -72,7 +99,8 @@ export function AddWord({ lang, words }: { lang: TargetLang; words: Word[] }) {
           Wort hinzufügen
         </h1>
         <p className="text-sm text-muted-foreground">
-          Gib ein deutsches Wort ein — die Karte entsteht automatisch.
+          Gib ein deutsches Wort oder eine Wendung ein — die Karte entsteht
+          automatisch.
         </p>
       </div>
 
@@ -81,7 +109,7 @@ export function AddWord({ lang, words }: { lang: TargetLang; words: Word[] }) {
           <Sparkles className="text-primary" />
         </InputGroupAddon>
         <InputGroupInput
-          placeholder="z. B. warten, das Haus, die Freiheit…"
+          placeholder="z. B. warten, das Haus, auf die Folter spannen…"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           onKeyDown={(event) => {
@@ -109,19 +137,16 @@ export function AddWord({ lang, words }: { lang: TargetLang; words: Word[] }) {
 
       {status === 'loading' && <LoadingPreview />}
 
-      {status === 'done' && result && (
+      {status === 'done' && card && (
         <div className="flex flex-col gap-3">
           <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
-            Vorschau
+            {existingId ? 'Bereits in der Bibliothek' : 'Vorschau'}
           </p>
-          <GeneratedCard
-            word={result}
+          <GeneratedCardView
+            card={card}
             lang={lang}
-            onSave={() =>
-              toast.success(`„${result.word}“ ist bereit`, {
-                description: 'Speichern folgt mit der Datenbank.',
-              })
-            }
+            saving={saving}
+            onSave={save}
           />
         </div>
       )}
@@ -147,57 +172,58 @@ function LoadingPreview() {
   )
 }
 
-function GeneratedCard({
-  word,
+function GeneratedCardView({
+  card,
   lang,
+  saving,
   onSave,
 }: {
-  word: Word
+  card: GeneratedCard
   lang: TargetLang
+  saving: boolean
   onSave: () => void
 }) {
+  const word = toPreviewWord(card)
+
   return (
     <Card className="overflow-hidden p-0">
-      <div className="relative aspect-21/9 bg-secondary">
-        <Image
-          src={word.image}
-          alt={word.word}
-          fill
-          sizes="(max-width: 768px) 100vw, 640px"
-          className="object-cover"
+      <div className="relative flex aspect-21/9 items-center justify-center bg-linear-to-br from-primary/15 to-teal/10">
+        <span className="font-display text-6xl font-bold text-primary/25">
+          {card.word.charAt(0).toUpperCase()}
+        </span>
+        <LevelBadge
+          level={card.level}
+          className="absolute top-3 right-3 h-6 px-2.5 shadow-sm"
         />
-        <div className="absolute top-3 right-3">
-          <LevelBadge level={word.level} className="h-6 px-2.5 shadow-sm" />
-        </div>
       </div>
 
       <CardContent className="flex flex-col gap-5 p-5">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h2 className="font-display text-3xl font-bold tracking-tight">
-              {word.article && (
-                <span className={ARTICLE_COLOR[word.article]}>
-                  {word.article}{' '}
+              {card.article && (
+                <span className={ARTICLE_COLOR[card.article]}>
+                  {card.article}{' '}
                 </span>
               )}
-              {word.word}
+              {card.word}
             </h2>
             <p className="mt-1 text-muted-foreground">
-              {translate(word.translations, lang)}
-              {word.article && ` · ${ARTICLE_LABEL[word.article]}`}
+              {translate(card.translations, lang)}
+              {card.article && ` · ${ARTICLE_LABEL[card.article]}`}
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <TypeBadge type={word.type} />
-            <PronounceButton text={word.word} />
+            <TypeBadge type={card.type} />
+            <PronounceButton text={card.word} />
           </div>
         </div>
 
         <WordGrammar word={word} />
 
-        <WordExamples examples={word.examples} lang={lang} />
+        <WordExamples examples={card.examples} lang={lang} />
 
-        {word.notes && <WordNotes notes={word.notes} />}
+        {card.notes && <WordNotes notes={card.notes} />}
 
         <Separator />
 
@@ -209,8 +235,8 @@ function GeneratedCard({
             <PencilLine data-icon="inline-start" />
             Bearbeiten
           </Button>
-          <Button onClick={onSave}>
-            <Save data-icon="inline-start" />
+          <Button onClick={onSave} disabled={saving}>
+            {saving ? <Spinner /> : <Save data-icon="inline-start" />}
             In Bibliothek speichern
           </Button>
         </div>

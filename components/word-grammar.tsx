@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { ARTICLE_LABEL, type Word } from '@/lib/vocab'
+import { ARTICLE_LABEL, TYPE_LABEL, type Word } from '@/lib/vocab'
 
 export function WordGrammar({ word }: { word: Word }) {
   return (
@@ -62,8 +62,8 @@ export function WordGrammar({ word }: { word: Word }) {
         {!word.verb && !word.preposition && (
           <p className="text-sm text-muted-foreground">
             {word.article
-              ? `Nomen · ${word.article} (${ARTICLE_LABEL[word.article]})`
-              : 'Keine weiteren grammatischen Hinweise.'}
+              ? `${TYPE_LABEL[word.type]} · ${word.article} (${ARTICLE_LABEL[word.article]})`
+              : TYPE_LABEL[word.type]}
           </p>
         )}
       </CollapsibleContent>

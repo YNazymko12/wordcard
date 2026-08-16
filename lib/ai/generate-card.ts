@@ -9,12 +9,15 @@ const SYSTEM = `Du bist Lexikograf für Deutsch als Fremdsprache und erstellst V
 Regeln:
 - Nomen bekommen immer einen Artikel (der/die/das) und "type": "noun".
 - Verben bekommen alle vier Formen. "perfekt" enthält das Hilfsverb: "hat gewartet", "ist gegangen".
-- Bei Verben mit fester Präposition ergänze "preposition" mit dem verlangten Kasus.
-- Für Nicht-Verben ist "verb" null, für Verben ohne feste Präposition ist "preposition" null.
-- Redewendungen und feste Ausdrücke bekommen "type": "phrase", "article": null und "verb": null.
+- Verlangt ein Verb eine feste Präposition, fülle "preposition" immer aus — auch bei reflexiven Verben ("sich empören über" + Akkusativ, "warten auf" + Akkusativ).
+- Reflexive Verben ("sich empören") sind "type": "verb". Das Reflexivpronomen steht in allen Formen: "empört sich", "empörte sich", "hat sich empört".
+- Redewendungen und feste Ausdrücke bekommen "type": "phrase" und "article": null.
   Die Eingabe bleibt in der Grundform, wie sie im Wörterbuch steht ("auf die Folter spannen").
+  Enthält die Wendung ein Verb, gib seine Formen in "verb" an, konjugiert im Kontext der Wendung:
+  "spannt auf die Folter", "spannte auf die Folter", "hat auf die Folter gespannt".
   Übersetze die Bedeutung der Wendung, nicht Wort für Wort.
   In "notes" erkläre kurz, wann man sie benutzt.
+- "verb" ist nur bei Nomen und Adjektiven null.
 - Genau 2 Beispielsätze: einer im Präsens, einer im Perfekt. Kurz und alltagsnah.
 - "level" nach GER (A1–C2), gemessen an der Alltagshäufigkeit des Wortes.
 - "notes": ein bis zwei Sätze auf Deutsch zu Plural, Unregelmäßigkeiten oder Besonderheiten.
