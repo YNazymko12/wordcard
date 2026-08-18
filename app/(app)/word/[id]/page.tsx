@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
+import { WordImage } from '@/components/word-image'
+import { RedrawImageButton } from '@/components/redraw-image-button'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
@@ -52,12 +53,10 @@ export default async function WordPage({ params }: PageProps<'/word/[id]'>) {
 
       <Card className="overflow-hidden p-0">
         <div className="relative aspect-16/10 bg-secondary">
-          <Image
+          <WordImage
             src={word.image}
-            alt={word.word}
-            fill
+            word={word.word}
             sizes="(max-width: 768px) 100vw, 640px"
-            className="object-cover"
             priority
           />
           <div className="absolute inset-x-0 bottom-0 h-28 bg-linear-to-t from-black/75 via-black/30 to-transparent" />
@@ -71,7 +70,10 @@ export default async function WordPage({ params }: PageProps<'/word/[id]'>) {
               )}
               {word.word}
             </h1>
-            <PronounceButton text={word.word} variant="secondary" />
+            <div className="flex items-center gap-2">
+              <RedrawImageButton wordId={word.id} />
+              <PronounceButton text={word.word} variant="secondary" />
+            </div>
           </div>
         </div>
 

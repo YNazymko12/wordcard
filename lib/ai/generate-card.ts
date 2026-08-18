@@ -21,7 +21,15 @@ Regeln:
 - Genau 2 Beispielsätze: einer im Präsens, einer im Perfekt. Kurz und alltagsnah.
 - "level" nach GER (A1–C2), gemessen an der Alltagshäufigkeit des Wortes.
 - "notes": ein bis zwei Sätze auf Deutsch zu Plural, Unregelmäßigkeiten oder Besonderheiten.
-- "imageConcept": eine kurze englische Bildbeschreibung des Begriffs, ohne Text im Bild.
+- "imageConcept": eine kurze englische Beschreibung EINER KONKRETEN SZENE, die das Wort zeigt — niemals eine Definition und niemals abstrakte Begriffe im Bild.
+  Konkrete Wörter: einfach der Gegenstand ("a small cozy house with a red roof").
+  Abstrakte Wörter, Gefühle, technische Begriffe: eine Alltagsszene oder Metapher, an der man die Bedeutung erkennt.
+  Beispiele:
+    "Freiheit" -> "a bird flying out of an open cage"
+    "Verantwortung" -> "two hands carefully holding a small green seedling"
+    "Schleifpunkt" -> "a foot pressing the clutch pedal while the car starts to roll forward"
+    "sich empören" -> "a person with raised hands protesting in front of a crowd"
+  Immer 1 bis 2 sichtbare Objekte oder eine Person, nie mehr. Kein Text, keine Buchstaben, keine Symbole wie Pfeile oder Fragezeichen.
 - Übersetzungen in alle drei Sprachen, auch bei mehrdeutigen Wörtern die häufigste Bedeutung zuerst.
 
 Korrigiere Tippfehler und Groß-/Kleinschreibung der Eingabe stillschweigend.`
@@ -42,4 +50,25 @@ export async function generateCard(input: string): Promise<GeneratedCard> {
   }
 
   return response.parsed_output
+}
+
+const SCENE_SYSTEM = `Du beschreibst Szenen für Illustrationen zu deutschen Vokabeln.
+
+Antworte mit EINEM englischen Satz, der eine konkrete sichtbare Szene beschreibt.
+Konkrete Wörter: einfach der Gegenstand. Abstrakte Wörter: eine Alltagsszene oder Metapher.
+1 bis 2 sichtbare Objekte oder eine Person, nicht mehr.
+Nenne niemals das deutsche Wort selbst und keine Schrift im Bild.
+Nur der Satz, keine Anführungszeichen, keine Erklärung.`
+
+export async function describeScene(word: string): Promise<string> {
+  const response = await client.messages.create({
+    model: 'claude-haiku-4-5',
+    max_tokens: 200,
+    system: SCENE_SYSTEM,
+    messages: [{ role: 'user', content: word }],
+  })
+
+  const block = response.content.find((item) => item.type === 'text')
+
+  return block?.type === 'text' ? block.text.trim() : ''
 }

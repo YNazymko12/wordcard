@@ -29,6 +29,7 @@ import {
   type TargetLang,
   type Word,
 } from '@/lib/vocab'
+import { generateWordImage } from '@/lib/actions/images'
 
 type Status = 'idle' | 'loading' | 'done'
 
@@ -89,6 +90,12 @@ export function AddWord({ lang }: { lang: TargetLang }) {
 
       toast.success(`„${card.word}“ gespeichert`)
       router.push(`/word/${result.id}`)
+
+      if (!existingId) {
+        void generateWordImage(result.id, card.imageConcept).then(() =>
+          router.refresh(),
+        )
+      }
     })
   }
 

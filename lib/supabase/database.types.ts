@@ -39,6 +39,27 @@ export type Database = {
   }
   public: {
     Tables: {
+      generations: {
+        Row: {
+          created_at: string
+          id: string
+          user_id: string
+          word: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          user_id: string
+          word: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          user_id?: string
+          word?: string
+        }
+        Relationships: []
+      }
       user_words: {
         Row: {
           created_at: string
@@ -84,6 +105,7 @@ export type Database = {
           created_by: string | null
           examples: Json
           id: string
+          image_concept: string | null
           image_url: string | null
           level: string
           notes: string | null
@@ -100,6 +122,7 @@ export type Database = {
           created_by?: string | null
           examples?: Json
           id?: string
+          image_concept?: string | null
           image_url?: string | null
           level: string
           notes?: string | null
@@ -116,6 +139,7 @@ export type Database = {
           created_by?: string | null
           examples?: Json
           id?: string
+          image_concept?: string | null
           image_url?: string | null
           level?: string
           notes?: string | null

@@ -28,7 +28,7 @@ export interface Word {
   type: WordType
   level: CEFRLevel
   translations: Translations
-  image: string
+  image: string | null
   verb?: VerbForms
   preposition?: { prep: string; case: GermanCase }
   examples: ExampleSentence[]

@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { Clock } from 'lucide-react'
 import { Card } from '@/components/ui/card'
@@ -11,18 +10,17 @@ import {
   type TargetLang,
   type Word,
 } from '@/lib/vocab'
+import { WordImage } from './word-image'
 
 export function WordCard({ word, lang }: { word: Word; lang: TargetLang }) {
   return (
     <Link href={`/word/${word.id}`} className="group">
       <Card className="gap-0 overflow-hidden p-0 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/5">
         <div className="relative aspect-4/3 overflow-hidden bg-secondary">
-          <Image
+          <WordImage
             src={word.image}
-            alt={word.word}
-            fill
+            word={word.word}
             sizes="(max-width: 640px) 50vw, 240px"
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
           <LevelBadge
             level={word.level}

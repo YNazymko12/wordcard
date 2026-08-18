@@ -37,7 +37,7 @@ function toWord(row: WordRow): Word {
     type: row.type as WordType,
     level: row.level as CEFRLevel,
     translations: row.translations,
-    image: row.image_url ?? '/images/placeholder.png',
+    image: row.image_url,
     verb: row.verb ?? undefined,
     preposition: row.preposition ?? undefined,
     examples: row.examples,

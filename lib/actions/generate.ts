@@ -103,6 +103,7 @@ export async function saveCardAction(
         verb: card.verb,
         preposition: card.preposition,
         notes: card.notes,
+        image_concept: card.imageConcept,
         created_by: userId,
       })
       .select('id')
