@@ -63,4 +63,65 @@ const cloudflare: ImageProvider = {
   },
 }
 
-export const imageProvider: ImageProvider = cloudflare
+const recraft: ImageProvider = {
+  name: 'recraft',
+
+  async generate(concept) {
+    const token = process.env.RECRAFT_API_KEY
+    const styleId = process.env.RECRAFT_STYLE_ID
+
+    if (!token) {
+      throw new Error('Recraft-Zugangsdaten fehlen.')
+    }
+
+    const response = await fetch(
+      'https://external.api.recraft.ai/v1/images/generations',
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          prompt: styleId ? concept : `${concept}, ${STYLE}`,
+          model: 'recraftv2',
+          size: '1024x1024',
+          response_format: 'b64_json',
+          ...(styleId
+            ? { style_id: styleId }
+            : { style: 'digital_illustration' }),
+        }),
+        signal: AbortSignal.timeout(120_000),
+      },
+    )
+
+    if (!response.ok) {
+      throw new Error(`Recraft antwortete mit ${response.status}`)
+    }
+
+    const payload = (await response.json()) as {
+      data?: { b64_json?: string; url?: string }[]
+    }
+
+    const image = payload.data?.[0]
+
+    if (image?.b64_json) {
+      return Buffer.from(image.b64_json, 'base64')
+    }
+
+    if (image?.url) {
+      const file = await fetch(image.url, {
+        signal: AbortSignal.timeout(60_000),
+      })
+
+      return Buffer.from(await file.arrayBuffer())
+    }
+
+    throw new Error('Recraft lieferte kein Bild.')
+  },
+}
+
+const PROVIDERS: Record<string, ImageProvider> = { cloudflare, recraft }
+
+export const imageProvider: ImageProvider =
+  PROVIDERS[process.env.IMAGE_PROVIDER ?? ''] ?? recraft
