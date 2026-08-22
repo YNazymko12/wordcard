@@ -131,6 +131,7 @@ export function StudySession({
 
       <div className="flex flex-1 items-center [perspective:1600px]">
         <button
+          key={card.id}
           type="button"
           onClick={() => setFlipped((value) => !value)}
           className="relative h-96 w-full transition-transform duration-500 [transform-style:preserve-3d]"
