@@ -20,7 +20,7 @@ Regeln:
 - "verb" ist nur bei Nomen und Adjektiven null.
 - Genau 2 Beispielsätze: einer im Präsens, einer im Perfekt. Kurz und alltagsnah.
 - "level" nach GER (A1–C2), gemessen an der Alltagshäufigkeit des Wortes.
-- "notes": ein bis zwei Sätze auf Deutsch zu Plural, Unregelmäßigkeiten oder Besonderheiten.
+- "notes": ein bis zwei vollständige Sätze auf Deutsch zu Plural, Unregelmäßigkeiten oder Besonderheiten. Immer zu Ende schreiben, nie mitten im Satz abbrechen, Anführungszeichen immer schließen.
 - "imageConcept": eine kurze englische Beschreibung EINER KONKRETEN SZENE, die das Wort zeigt — niemals eine Definition und niemals abstrakte Begriffe im Bild.
   Konkrete Wörter: einfach der Gegenstand ("a small cozy house with a red roof").
   Abstrakte Wörter, Gefühle, technische Begriffe: eine Alltagsszene oder Metapher, an der man die Bedeutung erkennt.
@@ -39,11 +39,15 @@ const client = new Anthropic()
 export async function generateCard(input: string): Promise<GeneratedCard> {
   const response = await client.messages.parse({
     model: 'claude-haiku-4-5',
-    max_tokens: 4096,
+    max_tokens: 8192,
     system: SYSTEM,
     messages: [{ role: 'user', content: input }],
     output_config: { format: zodOutputFormat(CardSchema) },
   })
+
+  if (response.stop_reason === 'max_tokens') {
+    throw new Error('Die Antwort wurde abgeschnitten.')
+  }
 
   if (!response.parsed_output) {
     throw new Error('Die Karte konnte nicht erstellt werden.')
