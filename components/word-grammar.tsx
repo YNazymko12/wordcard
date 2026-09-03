@@ -12,9 +12,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { ARTICLE_LABEL, TYPE_LABEL, type Word } from '@/lib/vocab'
+import type { Word } from '@/lib/vocab'
 
 export function WordGrammar({ word }: { word: Word }) {
+  if (!word.verb && !word.preposition) return null
+
   return (
     <Collapsible defaultOpen>
       <CollapsibleTrigger className="group flex w-full items-center justify-between rounded-xl bg-secondary/50 px-3 py-2.5 text-sm font-semibold transition-colors hover:bg-secondary">
@@ -57,14 +59,6 @@ export function WordGrammar({ word }: { word: Word }) {
             <span className="text-muted-foreground">+</span>
             <span className="font-medium">{word.preposition.case}</span>
           </div>
-        )}
-
-        {!word.verb && !word.preposition && (
-          <p className="text-sm text-muted-foreground">
-            {word.article
-              ? `${TYPE_LABEL[word.type]} · ${word.article} (${ARTICLE_LABEL[word.article]})`
-              : TYPE_LABEL[word.type]}
-          </p>
         )}
       </CollapsibleContent>
     </Collapsible>
