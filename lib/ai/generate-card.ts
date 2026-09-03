@@ -20,7 +20,10 @@ Regeln:
 - "verb" ist nur bei Nomen und Adjektiven null.
 - Genau 2 Beispielsätze: einer im Präsens, einer im Perfekt. Kurz und alltagsnah.
 - "level" nach GER (A1–C2), gemessen an der Alltagshäufigkeit des Wortes.
-- "notes": ein bis zwei vollständige Sätze auf Deutsch zu Plural, Unregelmäßigkeiten oder Besonderheiten. Immer zu Ende schreiben, nie mitten im Satz abbrechen, Anführungszeichen immer schließen.
+- "notes": ein bis zwei vollständige Sätze auf Deutsch zu Plural, Unregelmäßigkeiten oder Besonderheiten.
+  Verwende in "notes" KEINE Anführungszeichen — weder „ “ noch " " noch » «.
+  Nenne Beispielformen ohne Anführungszeichen: Wird mit ist gebildet. Plural: die Motorhauben.
+  Schreibe jeden Satz zu Ende.
 - "imageConcept": eine kurze englische Beschreibung EINER KONKRETEN SZENE, die das Wort zeigt — niemals eine Definition und niemals abstrakte Begriffe im Bild.
   Konkrete Wörter: einfach der Gegenstand ("a small cozy house with a red roof").
   Abstrakte Wörter, Gefühle, technische Begriffe: eine Alltagsszene oder Metapher, an der man die Bedeutung erkennt.
