@@ -17,6 +17,9 @@ import {
 } from '@/lib/vocab'
 import { useRouter } from 'next/navigation'
 import { reviewWord } from '@/lib/actions/study'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
+
+type Direction = 'de' | 'translation'
 
 export function StudySession({
   deck,
@@ -29,6 +32,7 @@ export function StudySession({
   const [flipped, setFlipped] = useState(false)
   const [known, setKnown] = useState(0)
   const [done, setDone] = useState(false)
+  const [direction, setDirection] = useState<Direction>('de')
 
   const router = useRouter()
 
@@ -111,6 +115,37 @@ export function StudySession({
   const card = deck[index]
   const progress = ((index + (flipped ? 0.5 : 0)) / deck.length) * 100
 
+  const germanSide = (
+    <>
+      <span className="text-xs font-medium tracking-widest text-muted-foreground uppercase">
+        {TYPE_LABEL[card.type]}
+      </span>
+      <p className="text-center font-display text-4xl font-bold tracking-tight">
+        {card.article && (
+          <span className={ARTICLE_COLOR[card.article]}>{card.article} </span>
+        )}
+        {card.word}
+      </p>
+    </>
+  )
+
+  const translationSide = (
+    <p className="text-center font-display text-3xl font-bold tracking-tight text-primary">
+      {translate(card.translations, lang)}
+    </p>
+  )
+
+  const example = (
+    <div className="w-full rounded-2xl border border-border bg-card/70 p-4 text-center">
+      <p className="leading-snug font-medium">{card.examples[0].de}</p>
+      <p className="mt-1 text-sm text-muted-foreground">
+        {translate(card.examples[0].translations, lang)}
+      </p>
+    </div>
+  )
+
+  const germanFirst = direction === 'de'
+
   return (
     <div className="mx-auto flex min-h-[70vh] max-w-md flex-col gap-5">
       <div className="flex items-center gap-3">
@@ -129,51 +164,62 @@ export function StudySession({
         </span>
       </div>
 
-      <div className="flex flex-1 items-center [perspective:1600px]">
-        <button
-          key={card.id}
-          type="button"
-          onClick={() => setFlipped((value) => !value)}
-          className="relative h-96 w-full transition-transform duration-500 [transform-style:preserve-3d]"
-          style={{ transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
-          aria-label="Karte umdrehen"
-        >
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 rounded-3xl border border-border bg-card p-8 shadow-lg shadow-primary/5 [backface-visibility:hidden]">
-            <div className="absolute top-4 right-4">
-              <LevelBadge level={card.level} />
-            </div>
-            <span className="text-xs font-medium tracking-widest text-muted-foreground uppercase">
-              {TYPE_LABEL[card.type]}
-            </span>
-            <p className="text-center font-display text-4xl font-bold tracking-tight">
-              {card.article && (
-                <span className={ARTICLE_COLOR[card.article]}>
-                  {card.article}{' '}
-                </span>
-              )}
-              {card.word}
-            </p>
-            <span className="text-xs text-muted-foreground">
-              Tippen zum Umdrehen
-            </span>
-          </div>
+      <ToggleGroup
+        value={[direction]}
+        onValueChange={(value) => {
+          const next = value[0] as Direction | undefined
+          if (next) {
+            setDirection(next)
+            setFlipped(false)
+          }
+        }}
+        variant="outline"
+        size="sm"
+        spacing={0}
+        className="self-center"
+        aria-label="Lernrichtung"
+      >
+        <ToggleGroupItem value="de">DE → {lang.toUpperCase()}</ToggleGroupItem>
+        <ToggleGroupItem value="translation">
+          {lang.toUpperCase()} → DE
+        </ToggleGroupItem>
+      </ToggleGroup>
 
-          <div className="absolute inset-0 flex transform-[rotateY(180deg)] flex-col items-center justify-center gap-5 rounded-3xl border border-primary/20 bg-linear-to-b from-primary/10 to-teal/5 p-8 [backface-visibility:hidden]">
-            <p className="text-center font-display text-3xl font-bold tracking-tight text-primary">
-              {translate(card.translations, lang)}
-            </p>
-            <div className="w-full rounded-2xl border border-border bg-card/70 p-4 text-center">
-              <p className="leading-snug font-medium">{card.examples[0].de}</p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                {translate(card.examples[0].translations, lang)}
-              </p>
+      <div className="flex flex-1 items-center [perspective:1600px]">
+        <div className="relative h-96 w-full">
+          <PronounceButton
+            text={card.word}
+            variant="secondary"
+            className="absolute top-4 right-4 z-10"
+          />
+          <button
+            key={card.id}
+            type="button"
+            onClick={() => setFlipped((value) => !value)}
+            className="absolute inset-0 transition-transform duration-500 [transform-style:preserve-3d]"
+            style={{ transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
+            aria-label="Karte umdrehen"
+          >
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 rounded-3xl border border-border bg-card p-8 shadow-lg shadow-primary/5 [backface-visibility:hidden]">
+              <LevelBadge
+                level={card.level}
+                className="absolute top-4 left-4"
+              />
+              {germanFirst ? germanSide : translationSide}
+              <span className="text-xs text-muted-foreground">
+                Tippen zum Umdrehen
+              </span>
             </div>
-          </div>
-        </button>
+
+            <div className="absolute inset-0 flex transform-[rotateY(180deg)] flex-col items-center justify-center gap-5 rounded-3xl border border-primary/20 bg-linear-to-b from-primary/10 to-teal/5 p-8 [backface-visibility:hidden]">
+              {germanFirst ? translationSide : germanSide}
+              {example}
+            </div>
+          </button>
+        </div>
       </div>
 
       <div className="flex items-center gap-3">
-        {flipped && <PronounceButton text={card.word} variant="secondary" />}
         <Button
           variant="outline"
           className={cn(
