@@ -1,10 +1,8 @@
 import type { Metadata } from 'next'
 import { WordImage } from '@/components/word-image'
 import { RedrawImageButton } from '@/components/redraw-image-button'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowLeft } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { BackButton } from '@/components/back-button'
 import { Card, CardContent } from '@/components/ui/card'
 import { LevelBadge, TypeBadge } from '@/components/vocab-badges'
 import { PronounceButton } from '@/components/pronounce-button'
@@ -37,16 +35,7 @@ export default async function WordPage({ params }: PageProps<'/word/[id]'>) {
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-5">
       <div className="flex items-center justify-between">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="-ml-2 w-fit"
-          nativeButton={false}
-          render={<Link href="/" />}
-        >
-          <ArrowLeft data-icon="inline-start" />
-          Zurück zur Bibliothek
-        </Button>
+        <BackButton href="/" label="Zurück zur Bibliothek" />
 
         <RemoveWordButton wordId={word.id} word={word.word} />
       </div>
