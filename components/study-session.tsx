@@ -33,6 +33,7 @@ export function StudySession({
   const [known, setKnown] = useState(0)
   const [done, setDone] = useState(false)
   const [direction, setDirection] = useState<Direction>('de')
+  const [session, setSession] = useState(deck)
 
   const router = useRouter()
 
@@ -41,7 +42,7 @@ export function StudySession({
 
     if (gotIt) setKnown((value) => value + 1)
 
-    if (index + 1 >= deck.length) {
+    if (index + 1 >= session.length) {
       setDone(true)
       router.refresh()
       return
@@ -52,13 +53,14 @@ export function StudySession({
   }
 
   function restart() {
+    setSession(deck)
     setIndex(0)
     setFlipped(false)
     setKnown(0)
     setDone(false)
   }
 
-  if (deck.length === 0) {
+  if (session.length === 0) {
     return (
       <div className="mx-auto flex max-w-md flex-col items-center gap-4 py-16 text-center">
         <div className="flex size-16 items-center justify-center rounded-2xl bg-success/15 text-success">
@@ -90,7 +92,7 @@ export function StudySession({
           <p className="text-muted-foreground">
             Du wusstest{' '}
             <span className="font-semibold text-foreground">
-              {known} von {deck.length}
+              {known} von {session.length}
             </span>{' '}
             Karten.
           </p>
@@ -112,8 +114,8 @@ export function StudySession({
     )
   }
 
-  const card = deck[index]
-  const progress = ((index + (flipped ? 0.5 : 0)) / deck.length) * 100
+  const card = session[index]
+  const progress = ((index + (flipped ? 0.5 : 0)) / session.length) * 100
 
   const germanSide = (
     <>
@@ -160,7 +162,7 @@ export function StudySession({
         </Button>
         <Progress value={progress} className="h-2 flex-1" />
         <span className="text-sm font-medium text-muted-foreground tabular-nums">
-          {index + 1}/{deck.length}
+          {index + 1}/{session.length}
         </span>
       </div>
 
