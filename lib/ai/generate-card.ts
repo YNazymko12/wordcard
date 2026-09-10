@@ -58,24 +58,3 @@ export async function generateCard(input: string): Promise<GeneratedCard> {
 
   return response.parsed_output
 }
-
-const SCENE_SYSTEM = `Du beschreibst Szenen für Illustrationen zu deutschen Vokabeln.
-
-Antworte mit EINEM englischen Satz, der eine konkrete sichtbare Szene beschreibt.
-Konkrete Wörter: einfach der Gegenstand. Abstrakte Wörter: eine Alltagsszene oder Metapher.
-1 bis 2 sichtbare Objekte oder eine Person, nicht mehr.
-Nenne niemals das deutsche Wort selbst und keine Schrift im Bild.
-Nur der Satz, keine Anführungszeichen, keine Erklärung.`
-
-export async function describeScene(word: string): Promise<string> {
-  const response = await client.messages.create({
-    model: 'claude-haiku-4-5',
-    max_tokens: 200,
-    system: SCENE_SYSTEM,
-    messages: [{ role: 'user', content: word }],
-  })
-
-  const block = response.content.find((item) => item.type === 'text')
-
-  return block?.type === 'text' ? block.text.trim() : ''
-}

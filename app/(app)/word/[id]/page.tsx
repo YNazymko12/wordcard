@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { WordImage } from '@/components/word-image'
-import { RedrawImageButton } from '@/components/redraw-image-button'
 import { notFound } from 'next/navigation'
 import { BackButton } from '@/components/back-button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -59,10 +58,7 @@ export default async function WordPage({ params }: PageProps<'/word/[id]'>) {
               )}
               {word.word}
             </h1>
-            <div className="flex items-center gap-2">
-              <RedrawImageButton wordId={word.id} />
-              <PronounceButton text={word.word} variant="secondary" />
-            </div>
+            <PronounceButton text={word.word} variant="secondary" />
           </div>
         </div>
 
