@@ -38,3 +38,9 @@ export const CardSchema = z.object({
 })
 
 export type GeneratedCard = z.infer<typeof CardSchema>
+
+export const WordInputSchema = CardSchema.omit({ imageConcept: true }).extend({
+  word: z.string().trim().min(1).max(80),
+})
+
+export type WordInput = z.infer<typeof WordInputSchema>
