@@ -110,6 +110,7 @@ export type Database = {
           level: string
           notes: string | null
           preposition: Json | null
+          source_id: string | null
           translations: Json
           type: string
           updated_at: string
@@ -127,6 +128,7 @@ export type Database = {
           level: string
           notes?: string | null
           preposition?: Json | null
+          source_id?: string | null
           translations?: Json
           type: string
           updated_at?: string
@@ -144,13 +146,22 @@ export type Database = {
           level?: string
           notes?: string | null
           preposition?: Json | null
+          source_id?: string | null
           translations?: Json
           type?: string
           updated_at?: string
           verb?: Json | null
           word?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: 'words_source_id_fkey'
+            columns: ['source_id']
+            isOneToOne: false
+            referencedRelation: 'words'
+            referencedColumns: ['id']
+          },
+        ]
       }
     }
     Views: {
