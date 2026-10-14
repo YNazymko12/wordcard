@@ -33,11 +33,27 @@ import {
   TYPE_LABEL,
   type Article,
   type CEFRLevel,
+  type GermanCase,
   type TargetLang,
   type WordType,
 } from '@/lib/vocab'
 
 const ARTICLES: Article[] = ['der', 'die', 'das']
+const CASES: GermanCase[] = ['Akkusativ', 'Dativ', 'Genitiv']
+
+const EMPTY_VERB = {
+  infinitive: '',
+  present3rd: '',
+  praeteritum: '',
+  perfekt: '',
+}
+
+const VERB_FORMS = [
+  { key: 'infinitive', label: 'Infinitiv' },
+  { key: 'present3rd', label: '3. Person' },
+  { key: 'praeteritum', label: 'Präteritum' },
+  { key: 'perfekt', label: 'Perfekt' },
+] as const
 
 export function WordForm({
   initial,
@@ -58,6 +74,7 @@ export function WordForm({
   const [showErrors, setShowErrors] = useState(false)
 
   const wordError = values.word.trim().length === 0
+  const conjugated = values.type === 'verb' || values.type === 'phrase'
 
   function patch(changes: Partial<WordInput>) {
     setValues((current) => ({ ...current, ...changes }))
@@ -65,6 +82,37 @@ export function WordForm({
 
   function patchTranslation(lang: TargetLang, value: string) {
     patch({ translations: { ...values.translations, [lang]: value } })
+  }
+
+  function patchVerb(changes: Partial<typeof EMPTY_VERB>) {
+    patch({ verb: { ...(values.verb ?? EMPTY_VERB), ...changes } })
+  }
+
+  function patchPreposition(prep: string, grammaticalCase: GermanCase) {
+    patch({
+      preposition: prep.trim() ? { prep, case: grammaticalCase } : null,
+    })
+  }
+
+  function patchExample(
+    index: number,
+    changes: Partial<WordInput['examples'][number]>,
+  ) {
+    patch({
+      examples: values.examples.map((example, position) =>
+        position === index ? { ...example, ...changes } : example,
+      ),
+    })
+  }
+
+  function patchExampleTranslation(
+    index: number,
+    lang: TargetLang,
+    value: string,
+  ) {
+    patchExample(index, {
+      translations: { ...values.examples[index].translations, [lang]: value },
+    })
   }
 
   function submit(event: React.FormEvent) {
@@ -182,6 +230,121 @@ export function WordForm({
                     }
                   />
                 </Field>
+              ))}
+            </FieldGroup>
+          </FieldSet>
+
+          {conjugated && (
+            <>
+              <FieldSeparator />
+
+              <FieldSet>
+                <FieldLegend variant="label">Grammatik</FieldLegend>
+                <FieldGroup className="gap-4">
+                  {VERB_FORMS.map((form) => (
+                    <Field key={form.key}>
+                      <FieldLabel htmlFor={`verb-${form.key}`}>
+                        {form.label}
+                      </FieldLabel>
+                      <Input
+                        id={`verb-${form.key}`}
+                        value={values.verb?.[form.key] ?? ''}
+                        onChange={(event) =>
+                          patchVerb({ [form.key]: event.target.value })
+                        }
+                      />
+                    </Field>
+                  ))}
+
+                  <Field>
+                    <FieldLabel htmlFor="preposition">Präposition</FieldLabel>
+                    <div className="flex gap-2">
+                      <Input
+                        id="preposition"
+                        className="flex-1"
+                        placeholder="auf"
+                        value={values.preposition?.prep ?? ''}
+                        onChange={(event) =>
+                          patchPreposition(
+                            event.target.value,
+                            values.preposition?.case ?? 'Akkusativ',
+                          )
+                        }
+                      />
+                      <Select
+                        value={values.preposition?.case ?? 'Akkusativ'}
+                        onValueChange={(value) =>
+                          patchPreposition(
+                            values.preposition?.prep ?? '',
+                            value as GermanCase,
+                          )
+                        }
+                      >
+                        <SelectTrigger
+                          className="w-36"
+                          aria-label="Fall"
+                          disabled={!values.preposition}
+                        >
+                          <SelectValue>
+                            {(value: GermanCase) => value}
+                          </SelectValue>
+                        </SelectTrigger>
+                        <SelectContent>
+                          {CASES.map((grammaticalCase) => (
+                            <SelectItem
+                              key={grammaticalCase}
+                              value={grammaticalCase}
+                            >
+                              {grammaticalCase}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </Field>
+                </FieldGroup>
+              </FieldSet>
+            </>
+          )}
+
+          <FieldSeparator />
+
+          <FieldSet>
+            <FieldLegend variant="label">Beispiele</FieldLegend>
+            <FieldGroup className="gap-5">
+              {values.examples.map((example, index) => (
+                <div key={index} className="flex flex-col gap-3">
+                  <Field>
+                    <FieldLabel htmlFor={`example-${index}`}>
+                      {index + 1} · {example.tense}
+                    </FieldLabel>
+                    <Textarea
+                      id={`example-${index}`}
+                      rows={2}
+                      value={example.de}
+                      onChange={(event) =>
+                        patchExample(index, { de: event.target.value })
+                      }
+                    />
+                  </Field>
+                  <div className="flex flex-col gap-2 border-l-2 border-border pl-3">
+                    {TARGET_LANGS.map((lang) => (
+                      <Input
+                        key={lang}
+                        value={example.translations[lang] ?? ''}
+                        onChange={(event) =>
+                          patchExampleTranslation(
+                            index,
+                            lang,
+                            event.target.value,
+                          )
+                        }
+                        aria-label={`${LANG_LABEL[lang]} — Beispiel ${index + 1}`}
+                        placeholder={LANG_LABEL[lang]}
+                      />
+                    ))}
+                  </div>
+                </div>
               ))}
             </FieldGroup>
           </FieldSet>
