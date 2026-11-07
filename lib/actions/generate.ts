@@ -6,7 +6,12 @@ import { createClient } from '@/lib/supabase/server'
 import type { GeneratedCard } from '@/lib/ai/card-schema'
 
 export type GenerateResult =
-  | { ok: true; card: GeneratedCard; existingId: string | null }
+  | {
+      ok: true
+      card: GeneratedCard
+      existingId: string | null
+      imageUrl: string | null
+    }
   | { ok: false; error: string }
 
 export type SaveResult = { ok: true; id: string } | { ok: false; error: string }
@@ -38,6 +43,7 @@ export async function generateCardAction(
     return {
       ok: true,
       existingId: existing.id,
+      imageUrl: existing.image_url,
       card: {
         word: existing.word,
         article: existing.article as GeneratedCard['article'],
@@ -72,7 +78,7 @@ export async function generateCardAction(
 
     await supabase.from('generations').insert({ user_id: userId, word: value })
 
-    return { ok: true, card, existingId: null }
+    return { ok: true, card, existingId: null, imageUrl: null }
   } catch {
     return { ok: false, error: 'Die Generierung ist fehlgeschlagen.' }
   }

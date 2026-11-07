@@ -18,6 +18,8 @@ import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Spinner } from '@/components/ui/spinner'
 import { LevelBadge, TypeBadge } from '@/components/vocab-badges'
+import { WordForm } from '@/components/word-form'
+import { WordImage } from '@/components/word-image'
 import { PronounceButton } from '@/components/pronounce-button'
 import { WordGrammar } from '@/components/word-grammar'
 import { WordExamples } from '@/components/word-examples'
@@ -56,6 +58,8 @@ export function AddWord({ lang }: { lang: TargetLang }) {
   const [status, setStatus] = useState<Status>('idle')
   const [card, setCard] = useState<GeneratedCard | null>(null)
   const [existingId, setExistingId] = useState<string | null>(null)
+  const [imageUrl, setImageUrl] = useState<string | null>(null)
+  const [editing, setEditing] = useState(false)
   const [saving, startSaving] = useTransition()
   const router = useRouter()
 
@@ -64,6 +68,7 @@ export function AddWord({ lang }: { lang: TargetLang }) {
 
     setStatus('loading')
     setCard(null)
+    setEditing(false)
 
     const result = await generateCardAction(query)
 
@@ -75,6 +80,7 @@ export function AddWord({ lang }: { lang: TargetLang }) {
 
     setCard(result.card)
     setExistingId(result.existingId)
+    setImageUrl(result.imageUrl)
     setStatus('done')
   }
 
@@ -150,12 +156,26 @@ export function AddWord({ lang }: { lang: TargetLang }) {
           <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
             {existingId ? 'Bereits in der Bibliothek' : 'Vorschau'}
           </p>
-          <GeneratedCardView
-            card={card}
-            lang={lang}
-            saving={saving}
-            onSave={save}
-          />
+          {editing ? (
+            <WordForm
+              initial={card}
+              submitLabel="Übernehmen"
+              onSubmit={(values) => {
+                setCard({ ...card, ...values })
+                setEditing(false)
+              }}
+              onCancel={() => setEditing(false)}
+            />
+          ) : (
+            <GeneratedCardView
+              card={card}
+              lang={lang}
+              imageUrl={imageUrl}
+              saving={saving}
+              onSave={save}
+              onEdit={() => setEditing(true)}
+            />
+          )}
         </div>
       )}
     </div>
@@ -183,22 +203,34 @@ function LoadingPreview() {
 function GeneratedCardView({
   card,
   lang,
+  imageUrl,
   saving,
   onSave,
+  onEdit,
 }: {
   card: GeneratedCard
   lang: TargetLang
+  imageUrl: string | null
   saving: boolean
   onSave: () => void
+  onEdit: () => void
 }) {
   const word = toPreviewWord(card)
 
   return (
     <Card className="overflow-hidden p-0">
       <div className="relative flex aspect-21/9 items-center justify-center bg-linear-to-br from-primary/15 to-teal/10">
-        <span className="font-display text-6xl font-bold text-primary/25">
-          {card.word.charAt(0).toUpperCase()}
-        </span>
+        {imageUrl ? (
+          <WordImage
+            src={imageUrl}
+            word={card.word}
+            sizes="(max-width: 768px) 100vw, 640px"
+          />
+        ) : (
+          <span className="font-display text-6xl font-bold text-primary/25">
+            {card.word.charAt(0).toUpperCase()}
+          </span>
+        )}
         <LevelBadge
           level={card.level}
           className="absolute top-3 right-3 h-6 px-2.5 shadow-sm"
@@ -236,10 +268,7 @@ function GeneratedCardView({
         <Separator />
 
         <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-          <Button
-            variant="outline"
-            onClick={() => toast('Bearbeiten kommt als Nächstes')}
-          >
+          <Button variant="outline" onClick={onEdit}>
             <PencilLine data-icon="inline-start" />
             Bearbeiten
           </Button>
