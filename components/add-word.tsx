@@ -47,6 +47,7 @@ function toPreviewWord(card: GeneratedCard): Word {
     examples: card.examples,
     notes: card.notes || undefined,
     dueForReview: false,
+    createdBy: null,
   }
 }
 

@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import type { WordInput } from '@/lib/ai/card-schema'
 import type {
   Article,
   CEFRLevel,
@@ -24,6 +25,7 @@ interface WordRow {
   preposition: { prep: string; case: GermanCase } | null
   notes: string | null
   image_url: string | null
+  created_by: string | null
   user_words: { due_at: string }[]
 }
 
@@ -43,6 +45,33 @@ function toWord(row: WordRow): Word {
     examples: row.examples,
     notes: row.notes ?? undefined,
     dueForReview: dueAt ? new Date(dueAt) <= new Date() : false,
+    createdBy: row.created_by,
+  }
+}
+
+export function toWordInput(word: Word): WordInput {
+  return {
+    word: word.word,
+    article: word.article ?? null,
+    type: word.type,
+    level: word.level,
+    translations: {
+      ru: word.translations.ru ?? '',
+      uk: word.translations.uk ?? '',
+      en: word.translations.en ?? '',
+    },
+    verb: word.verb ?? null,
+    preposition: word.preposition ?? null,
+    examples: word.examples.map((example) => ({
+      de: example.de,
+      tense: example.tense,
+      translations: {
+        ru: example.translations.ru ?? '',
+        uk: example.translations.uk ?? '',
+        en: example.translations.en ?? '',
+      },
+    })),
+    notes: word.notes ?? '',
   }
 }
 
