@@ -40,6 +40,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# one-off scripts: copyrighted word lists and their venv
+/scripts/goethe/
+/scripts/venv/
+
 # AI agents
 .claude/
 CLAUDE.md
