@@ -50,6 +50,7 @@ function toPreviewWord(card: GeneratedCard): Word {
     notes: card.notes || undefined,
     dueForReview: false,
     createdBy: null,
+    hasImageConcept: Boolean(card.imageConcept.trim()),
   }
 }
 
@@ -99,7 +100,14 @@ export function AddWord({ lang }: { lang: TargetLang }) {
       router.push(`/word/${result.id}`)
 
       if (!existingId) {
-        void generateWordImage(result.id).then(() => router.refresh())
+        void generateWordImage(result.id).then((image) => {
+          if (!image.ok) {
+            toast.error(`Bild für „${card.word}“: ${image.error}`)
+            return
+          }
+
+          router.refresh()
+        })
       }
     })
   }

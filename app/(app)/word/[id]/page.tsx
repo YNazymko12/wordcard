@@ -13,8 +13,10 @@ import { WordExamples } from '@/components/word-examples'
 import { WordNotes } from '@/components/word-notes'
 import { getLang } from '@/lib/lang'
 import { cn } from '@/lib/utils'
+import { createClient } from '@/lib/supabase/server'
 import { getWordById } from '@/lib/words'
 import { ARTICLE_COLOR, ARTICLE_LABEL, translate } from '@/lib/vocab'
+import { GenerateImageButton } from '@/components/generate-image-button'
 import { RemoveWordButton } from '@/components/remove-word-button'
 
 export async function generateMetadata({
@@ -34,12 +36,20 @@ export default async function WordPage({ params }: PageProps<'/word/[id]'>) {
 
   const lang = await getLang()
 
+  const supabase = await createClient()
+  const { data: auth } = await supabase.auth.getClaims()
+
+  const canCreateImage =
+    !word.image && word.hasImageConcept && word.createdBy === auth?.claims?.sub
+
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-5">
       <div className="flex items-center justify-between">
         <BackButton href="/" label="Zurück zur Bibliothek" />
 
         <div className="flex items-center gap-1">
+          {canCreateImage && <GenerateImageButton wordId={word.id} />}
+
           <Button
             variant="ghost"
             size="sm"

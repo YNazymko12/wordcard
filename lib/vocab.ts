@@ -35,6 +35,7 @@ export interface Word {
   notes?: string
   dueForReview: boolean
   createdBy: string | null
+  hasImageConcept: boolean
 }
 
 export const LEVELS: CEFRLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']

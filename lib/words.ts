@@ -25,6 +25,7 @@ interface WordRow {
   preposition: { prep: string; case: GermanCase } | null
   notes: string | null
   image_url: string | null
+  image_concept: string | null
   created_by: string | null
   user_words: { due_at: string }[]
 }
@@ -46,6 +47,7 @@ function toWord(row: WordRow): Word {
     notes: row.notes ?? undefined,
     dueForReview: dueAt ? new Date(dueAt) <= new Date() : false,
     createdBy: row.created_by,
+    hasImageConcept: Boolean(row.image_concept?.trim()),
   }
 }
 
