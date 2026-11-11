@@ -7,11 +7,16 @@ import { WordInputSchema, type WordInput } from '@/lib/ai/card-schema'
 
 export async function removeFromCollection(wordId: string) {
   const supabase = await createClient()
+  const { data: auth } = await supabase.auth.getClaims()
+  const userId = auth?.claims?.sub
+
+  if (!userId) redirect('/login')
 
   const { error } = await supabase
     .from('user_words')
     .delete()
     .eq('word_id', wordId)
+    .eq('user_id', userId)
 
   if (error) throw error
 
@@ -128,6 +133,7 @@ export async function updateWord(
     .from('user_words')
     .update({ word_id: copyId })
     .eq('word_id', wordId)
+    .eq('user_id', userId)
     .select('word_id')
 
   if (moved?.length === 0) {

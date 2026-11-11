@@ -5,11 +5,16 @@ import { schedule } from '@/lib/srs'
 
 export async function reviewWord(wordId: string, remembered: boolean) {
   const supabase = await createClient()
+  const { data: auth } = await supabase.auth.getClaims()
+  const userId = auth?.claims?.sub
+
+  if (!userId) return
 
   const { data: current } = await supabase
     .from('user_words')
     .select('repetitions, interval_days, ease_factor')
     .eq('word_id', wordId)
+    .eq('user_id', userId)
     .maybeSingle()
 
   if (!current) return
@@ -32,4 +37,5 @@ export async function reviewWord(wordId: string, remembered: boolean) {
       due_at: next.dueAt.toISOString(),
     })
     .eq('word_id', wordId)
+    .eq('user_id', userId)
 }
