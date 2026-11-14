@@ -9,6 +9,13 @@ const SYSTEM = `Du bist Lexikograf für Deutsch als Fremdsprache und erstellst V
 Regeln:
 - Nomen bekommen immer einen Artikel (der/die/das) und "type": "noun".
 - Verben bekommen alle vier Formen. "perfekt" enthält das Hilfsverb: "hat gewartet", "ist gegangen".
+  Das Hilfsverb richtet sich nach der Bedeutung der Karte: eine Scheibe "ist beschlagen",
+  ein Pferd dagegen "hat" jemand "beschlagen".
+  Eine untrennbare Vorsilbe bleibt in jeder Form erhalten, auch im Partizip:
+  "erahnte", "hat erahnt", niemals "geahnt".
+  Gehört ein Artikel zur Wendung, steht er in allen vier Formen:
+  "den Rückwärtsgang einlegen", "legt den Rückwärtsgang ein", "legte den Rückwärtsgang ein",
+  "hat den Rückwärtsgang eingelegt".
 - Verlangt ein Verb eine feste Präposition, fülle "preposition" immer aus — auch bei reflexiven Verben ("sich empören über" + Akkusativ, "warten auf" + Akkusativ).
 - Reflexive Verben ("sich empören") sind "type": "verb". Das Reflexivpronomen steht in allen Formen: "empört sich", "empörte sich", "hat sich empört".
 - Präpositionen bekommen "type": "preposition" und "article": null.
@@ -24,6 +31,16 @@ Regeln:
   In "notes" erkläre kurz, wann man sie benutzt.
 - "verb" ist nur bei Verben und bei Wendungen mit Verb gefüllt, sonst immer null.
 - Genau 2 Beispielsätze: einer im Präsens, einer im Perfekt. Kurz und alltagsnah.
+  Jeder Satz enthält das Stichwort selbst, nur gebeugt. Niemals ein verwandtes Wort
+  ("erahnen" nicht als "ahnen") und niemals versteckt in einem Kompositum
+  ("Hülle" nicht als "Klarsichthülle").
+  Eine untrennbare Vorsilbe bleibt in jeder Form erhalten, auch im Partizip:
+  "hat erahnt", nicht "hat geahnt".
+  Beide Sätze zeigen die Bedeutung, die in den Übersetzungen steht. Hat das Wort mehrere
+  Bedeutungen, wähle eine und bleibe in beiden Sätzen dabei: "Schleifpunkt" ist beim Auto
+  die Stelle, an der die Kupplung greift, nicht eine Stelle an einer Maschine.
+  Der Perfekt-Satz steht wirklich im Perfekt (hat/ist + Partizip), nicht im Präteritum:
+  "Er hat sich gewappnet", nicht "Er war gewappnet".
 - "level" nach GER (A1–C2), gemessen an der Alltagshäufigkeit des Wortes.
 - "notes": ein bis zwei vollständige Sätze auf Deutsch zu Plural, Unregelmäßigkeiten oder Besonderheiten.
   Verwende in "notes" KEINE Anführungszeichen — weder „ “ noch " " noch » «.
