@@ -80,7 +80,8 @@ export async function generateCardAction(
     await supabase.from('generations').insert({ user_id: userId, word: value })
 
     return { ok: true, card, existingId: null, imageUrl: null }
-  } catch {
+  } catch (error) {
+    console.error('[generate]', value, error)
     return { ok: false, error: 'Die Generierung ist fehlgeschlagen.' }
   }
 }

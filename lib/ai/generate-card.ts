@@ -39,8 +39,23 @@ Korrigiere Tippfehler und Groß-/Kleinschreibung der Eingabe stillschweigend.`
 
 const client = new Anthropic()
 
+const NULLABLE_FIELDS = ['article', 'verb', 'preposition'] as const
+
+// Models sometimes write the string "null" where JSON null belongs
+function withRealNulls(raw: unknown): unknown {
+  if (typeof raw !== 'object' || raw === null) return raw
+
+  const card = { ...(raw as Record<string, unknown>) }
+
+  for (const field of NULLABLE_FIELDS) {
+    if (card[field] === 'null' || card[field] === '') card[field] = null
+  }
+
+  return card
+}
+
 export async function generateCard(input: string): Promise<GeneratedCard> {
-  const response = await client.messages.parse({
+  const response = await client.messages.create({
     model: 'claude-haiku-4-5',
     max_tokens: 8192,
     system: SYSTEM,
@@ -52,9 +67,11 @@ export async function generateCard(input: string): Promise<GeneratedCard> {
     throw new Error('Die Antwort wurde abgeschnitten.')
   }
 
-  if (!response.parsed_output) {
+  const block = response.content.find((item) => item.type === 'text')
+
+  if (block?.type !== 'text') {
     throw new Error('Die Karte konnte nicht erstellt werden.')
   }
 
-  return response.parsed_output
+  return CardSchema.parse(withRealNulls(JSON.parse(block.text)))
 }
