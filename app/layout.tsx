@@ -41,7 +41,7 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
         >
           <LangProvider lang={lang}>
             {children}
-            <Toaster position="top-center" />
+            <Toaster position="bottom-right" />
           </LangProvider>
         </ThemeProvider>
       </body>
