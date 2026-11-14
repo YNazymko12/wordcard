@@ -31,6 +31,7 @@ const DUPLICATE = '23505'
 
 function toRow(input: WordInput) {
   const conjugated = input.type === 'verb' || input.type === 'phrase'
+  const governsCase = conjugated || input.type === 'preposition'
 
   return {
     word: input.word,
@@ -40,7 +41,7 @@ function toRow(input: WordInput) {
     translations: input.translations,
     examples: input.examples,
     verb: conjugated ? input.verb : null,
-    preposition: conjugated ? input.preposition : null,
+    preposition: governsCase ? input.preposition : null,
     notes: input.notes.trim() || null,
   }
 }

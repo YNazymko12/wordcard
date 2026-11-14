@@ -75,6 +75,7 @@ export function WordForm({
 
   const wordError = values.word.trim().length === 0
   const conjugated = values.type === 'verb' || values.type === 'phrase'
+  const governsCase = conjugated || values.type === 'preposition'
 
   function patch(changes: Partial<WordInput>) {
     setValues((current) => ({ ...current, ...changes }))
@@ -234,27 +235,28 @@ export function WordForm({
             </FieldGroup>
           </FieldSet>
 
-          {conjugated && (
+          {governsCase && (
             <>
               <FieldSeparator />
 
               <FieldSet>
                 <FieldLegend variant="label">Grammatik</FieldLegend>
                 <FieldGroup className="gap-4">
-                  {VERB_FORMS.map((form) => (
-                    <Field key={form.key}>
-                      <FieldLabel htmlFor={`verb-${form.key}`}>
-                        {form.label}
-                      </FieldLabel>
-                      <Input
-                        id={`verb-${form.key}`}
-                        value={values.verb?.[form.key] ?? ''}
-                        onChange={(event) =>
-                          patchVerb({ [form.key]: event.target.value })
-                        }
-                      />
-                    </Field>
-                  ))}
+                  {conjugated &&
+                    VERB_FORMS.map((form) => (
+                      <Field key={form.key}>
+                        <FieldLabel htmlFor={`verb-${form.key}`}>
+                          {form.label}
+                        </FieldLabel>
+                        <Input
+                          id={`verb-${form.key}`}
+                          value={values.verb?.[form.key] ?? ''}
+                          onChange={(event) =>
+                            patchVerb({ [form.key]: event.target.value })
+                          }
+                        />
+                      </Field>
+                    ))}
 
                   <Field>
                     <FieldLabel htmlFor="preposition">Präposition</FieldLabel>

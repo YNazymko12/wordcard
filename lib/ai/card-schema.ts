@@ -9,7 +9,15 @@ const Translations = z.object({
 export const CardSchema = z.object({
   word: z.string(),
   article: z.enum(['der', 'die', 'das']).nullable(),
-  type: z.enum(['noun', 'verb', 'adjective', 'phrase']),
+  type: z.enum([
+    'noun',
+    'verb',
+    'adjective',
+    'adverb',
+    'preposition',
+    'conjunction',
+    'phrase',
+  ]),
   level: z.enum(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']),
   translations: Translations,
   verb: z

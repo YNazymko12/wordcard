@@ -1,5 +1,12 @@
 export type CEFRLevel = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2'
-export type WordType = 'noun' | 'verb' | 'adjective' | 'phrase'
+export type WordType =
+  | 'noun'
+  | 'verb'
+  | 'adjective'
+  | 'adverb'
+  | 'preposition'
+  | 'conjunction'
+  | 'phrase'
 export type Article = 'der' | 'die' | 'das'
 export type GermanCase = 'Akkusativ' | 'Dativ' | 'Genitiv'
 export type Tense = 'Präsens' | 'Perfekt'
@@ -39,7 +46,15 @@ export interface Word {
 }
 
 export const LEVELS: CEFRLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
-export const TYPES: WordType[] = ['noun', 'verb', 'adjective', 'phrase']
+export const TYPES: WordType[] = [
+  'noun',
+  'verb',
+  'adjective',
+  'adverb',
+  'preposition',
+  'conjunction',
+  'phrase',
+]
 
 export const TARGET_LANGS: TargetLang[] = ['ru', 'uk', 'en']
 export const DEFAULT_LANG: TargetLang = 'ru'
@@ -80,5 +95,8 @@ export const TYPE_LABEL: Record<WordType, string> = {
   noun: 'Nomen',
   verb: 'Verb',
   adjective: 'Adjektiv',
+  adverb: 'Adverb',
+  preposition: 'Präposition',
+  conjunction: 'Konjunktion',
   phrase: 'Wendung',
 }
