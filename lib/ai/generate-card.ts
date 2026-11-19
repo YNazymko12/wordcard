@@ -56,6 +56,11 @@ Regeln:
     "sich empören" -> "a person with raised hands protesting in front of a crowd"
   Immer 1 bis 2 sichtbare Objekte oder eine Person, nie mehr. Kein Text, keine Buchstaben, keine Symbole wie Pfeile oder Fragezeichen.
 - Übersetzungen in alle drei Sprachen, auch bei mehrdeutigen Wörtern die häufigste Bedeutung zuerst.
+  Stichwort und Beispielsätze meinen dieselbe Bedeutung: steht "Schleifpunkt" für die Kupplung,
+  darf die Übersetzung des Stichworts nicht vom Schleifen handeln.
+  Russisch und Ukrainisch werden unabhängig formuliert, nie Wort für Wort voneinander übertragen.
+  Ukrainisch folgt der literarischen Norm, ohne Russismen:
+  "вмикати" statt "включати", "буксирувати" statt "буксувати", "приборкати" statt "обуздати".
 
 Korrigiere Tippfehler und Groß-/Kleinschreibung der Eingabe stillschweigend.`
 
@@ -78,7 +83,7 @@ function withRealNulls(raw: unknown): unknown {
 
 export async function generateCard(input: string): Promise<GeneratedCard> {
   const response = await client.messages.create({
-    model: 'claude-haiku-4-5',
+    model: 'claude-haiku-5-5',
     max_tokens: 8192,
     system: SYSTEM,
     messages: [{ role: 'user', content: input }],
