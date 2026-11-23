@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { generateCard } from '@/lib/ai/generate-card'
 import { createClient } from '@/lib/supabase/server'
+import { getQuota, QUOTA_REACHED } from '@/lib/quota'
 import type { GeneratedCard } from '@/lib/ai/card-schema'
 
 export type GenerateResult =
@@ -15,9 +16,6 @@ export type GenerateResult =
   | { ok: false; error: string }
 
 export type SaveResult = { ok: true; id: string } | { ok: false; error: string }
-
-const DAILY_LIMIT = 10
-const DAY_MS = 86_400_000
 
 export async function generateCardAction(
   input: string,
@@ -61,17 +59,10 @@ export async function generateCardAction(
 
   const userId = auth.claims.sub
 
-  const { count } = await supabase
-    .from('generations')
-    .select('id', { count: 'exact', head: true })
-    .eq('user_id', userId)
-    .gte('created_at', new Date(Date.now() - DAY_MS).toISOString())
+  const quota = await getQuota(userId)
 
-  if ((count ?? 0) >= DAILY_LIMIT) {
-    return {
-      ok: false,
-      error: `Tageslimit erreicht: ${DAILY_LIMIT} neue Wörter pro Tag. Wörter aus der Bibliothek kannst du weiterhin hinzufügen.`,
-    }
+  if (!quota.unlimited && quota.left <= 0) {
+    return { ok: false, error: QUOTA_REACHED }
   }
 
   try {

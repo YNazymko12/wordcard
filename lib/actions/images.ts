@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createWordImage } from '@/lib/images/store'
+import { getQuota, QUOTA_REACHED } from '@/lib/quota'
 import type { ImageResult } from '@/lib/images/store'
 
 export type { ImageResult }
@@ -34,6 +35,12 @@ export async function generateWordImage(wordId: string): Promise<ImageResult> {
 
   if (!concept) {
     return { ok: false, error: 'Für dieses Wort fehlt die Bildbeschreibung.' }
+  }
+
+  const quota = await getQuota(userId)
+
+  if (!quota.unlimited && quota.left <= 0) {
+    return { ok: false, error: QUOTA_REACHED }
   }
 
   const result = await createWordImage(wordId, concept)
