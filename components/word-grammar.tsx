@@ -19,11 +19,11 @@ export function WordGrammar({ word }: { word: Word }) {
 
   return (
     <Collapsible defaultOpen>
-      <CollapsibleTrigger className="group flex w-full items-center justify-between rounded-xl bg-secondary/50 px-3 py-2.5 text-sm font-semibold transition-colors hover:bg-secondary">
+      <CollapsibleTrigger className="group flex h-11 w-full items-center justify-between rounded-xl bg-secondary/50 px-4 text-sm font-semibold transition-colors hover:bg-secondary">
         Grammatik
         <ChevronDown className="size-4 text-muted-foreground transition-transform group-data-panel-open:rotate-180" />
       </CollapsibleTrigger>
-      <CollapsibleContent className="flex flex-col gap-3 pt-3">
+      <CollapsibleContent className="flex flex-col gap-3 pt-4">
         {word.verb && (
           <div className="overflow-hidden rounded-xl border border-border">
             <Table>
@@ -52,7 +52,7 @@ export function WordGrammar({ word }: { word: Word }) {
         )}
 
         {word.preposition && (
-          <div className="flex items-center gap-2 rounded-xl border border-teal/30 bg-teal/5 px-3 py-2.5 text-sm">
+          <div className="flex items-center gap-2 rounded-xl border border-teal/30 bg-teal/5 px-4 py-3 text-sm">
             <span className="font-semibold text-teal">
               {word.preposition.prep}
             </span>

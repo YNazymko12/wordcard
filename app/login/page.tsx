@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-[70vh] flex-col items-center justify-center gap-6">
+    <div className="flex min-h-svh flex-col items-center justify-center gap-8 px-4 py-12">
       <div className="flex flex-col items-center gap-1 text-center">
         <h1 className="font-display text-2xl font-bold tracking-tight">
           Willkommen bei Wortkarte

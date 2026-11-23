@@ -25,7 +25,7 @@ const NAV = [
 
 function Logo() {
   return (
-    <div className="flex items-center gap-2.5">
+    <div className="flex items-center gap-3">
       <div className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm shadow-primary/30">
         <Sparkles className="size-5" />
       </div>
@@ -63,26 +63,26 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               key={href}
               href={href}
               className={cn(
-                'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors',
+                'flex h-11 items-center gap-3 rounded-xl px-3 text-sm font-medium transition-colors',
                 isActive(href)
                   ? 'bg-primary text-primary-foreground shadow-sm shadow-primary/30'
                   : 'text-muted-foreground hover:bg-secondary hover:text-foreground',
               )}
             >
-              <Icon className="size-4.5" />
+              <Icon className="size-5" />
               {label}
             </Link>
           ))}
         </nav>
 
-        <div className="flex flex-col gap-3">
-          <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
             <span className="px-1 text-xs font-medium text-muted-foreground">
               Übersetzung
             </span>
             <LangToggle />
           </div>
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-2">
             <span className="px-1 text-xs font-medium text-muted-foreground">
               Design
             </span>
@@ -112,21 +112,21 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </header>
 
       <main className="lg:pl-64">
-        <div className="mx-auto w-full max-w-5xl px-4 pt-6 pb-28 sm:px-6 lg:px-10 lg:pt-10 lg:pb-14">
+        <div className="mx-auto w-full max-w-5xl px-4 pt-8 pb-24 sm:px-6 lg:px-12 lg:pt-12 lg:pb-16">
           {children}
         </div>
       </main>
 
       <nav
         aria-label="Hauptnavigation"
-        className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-4 border-t border-border bg-background/90 backdrop-blur lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-4 border-t border-border bg-background/90 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden"
       >
         {NAV.map(({ href, label, icon: Icon }) => (
           <Link
             key={href}
             href={href}
             className={cn(
-              'flex flex-col items-center gap-1 py-2.5 text-[11px] font-medium transition-colors',
+              'flex h-16 flex-col items-center justify-center gap-1 text-[11px] font-medium transition-colors',
               isActive(href) ? 'text-primary' : 'text-muted-foreground',
             )}
           >

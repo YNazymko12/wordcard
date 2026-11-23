@@ -130,7 +130,7 @@ export function WordForm({
   return (
     <form onSubmit={submit} className="flex flex-col gap-4">
       <Card className="p-0">
-        <CardContent className="flex flex-col gap-6 p-5">
+        <CardContent className="flex flex-col gap-6 p-6">
           <FieldSet>
             <FieldLegend variant="label">Grundform</FieldLegend>
             <FieldGroup className="gap-4">
@@ -313,7 +313,7 @@ export function WordForm({
 
           <FieldSet>
             <FieldLegend variant="label">Beispiele</FieldLegend>
-            <FieldGroup className="gap-5">
+            <FieldGroup className="gap-6">
               {values.examples.map((example, index) => (
                 <div key={index} className="flex flex-col gap-3">
                   <Field>

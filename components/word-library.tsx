@@ -58,54 +58,56 @@ export function WordLibrary({
   })
 
   return (
-    <div className="flex flex-col gap-4">
-      <InputGroup className="h-10 rounded-xl">
-        <InputGroupAddon>
-          <Search />
-        </InputGroupAddon>
-        <InputGroupInput
-          placeholder="Wörter oder Übersetzungen suchen…"
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-        />
-      </InputGroup>
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-3">
+        <InputGroup className="h-10 rounded-xl">
+          <InputGroupAddon>
+            <Search />
+          </InputGroupAddon>
+          <InputGroupInput
+            placeholder="Wörter oder Übersetzungen suchen…"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+          />
+        </InputGroup>
 
-      <div className="flex flex-wrap items-center gap-3">
-        <ToggleGroup
-          value={levels}
-          onValueChange={setLevels}
-          variant="outline"
-          size="sm"
-          className="flex-wrap"
-          aria-label="Niveau filtern"
-        >
-          {LEVELS.map((level) => (
-            <ToggleGroupItem key={level} value={level}>
-              {level}
-            </ToggleGroupItem>
-          ))}
-        </ToggleGroup>
-
-        <Select
-          value={type}
-          onValueChange={(value) => setType(value as WordType | 'all')}
-        >
-          <SelectTrigger className="h-8" size="sm">
-            <SelectValue>
-              {(value: WordType | 'all') =>
-                value === 'all' ? 'Alle Wortarten' : TYPE_LABEL[value]
-              }
-            </SelectValue>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Alle Wortarten</SelectItem>
-            {TYPES.map((wordType) => (
-              <SelectItem key={wordType} value={wordType}>
-                {TYPE_LABEL[wordType]}
-              </SelectItem>
+        <div className="flex flex-wrap items-center gap-3">
+          <ToggleGroup
+            value={levels}
+            onValueChange={setLevels}
+            variant="outline"
+            size="sm"
+            className="flex-wrap"
+            aria-label="Niveau filtern"
+          >
+            {LEVELS.map((level) => (
+              <ToggleGroupItem key={level} value={level}>
+                {level}
+              </ToggleGroupItem>
             ))}
-          </SelectContent>
-        </Select>
+          </ToggleGroup>
+
+          <Select
+            value={type}
+            onValueChange={(value) => setType(value as WordType | 'all')}
+          >
+            <SelectTrigger className="h-8" size="sm">
+              <SelectValue>
+                {(value: WordType | 'all') =>
+                  value === 'all' ? 'Alle Wortarten' : TYPE_LABEL[value]
+                }
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Alle Wortarten</SelectItem>
+              {TYPES.map((wordType) => (
+                <SelectItem key={wordType} value={wordType}>
+                  {TYPE_LABEL[wordType]}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       {filtered.length === 0 ? (

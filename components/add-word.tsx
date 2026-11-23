@@ -113,8 +113,8 @@ export function AddWord({ lang }: { lang: TargetLang }) {
   }
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-5">
-      <div className="flex flex-col gap-1">
+    <div className="mx-auto max-w-2xl">
+      <header className="flex flex-col gap-1">
         <h1 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
           Wort hinzufügen
         </h1>
@@ -122,68 +122,70 @@ export function AddWord({ lang }: { lang: TargetLang }) {
           Gib ein deutsches Wort oder eine Wendung ein — die Karte entsteht
           automatisch.
         </p>
-      </div>
+      </header>
 
-      <InputGroup className="h-12 rounded-xl">
-        <InputGroupAddon>
-          <Sparkles className="text-primary" />
-        </InputGroupAddon>
-        <InputGroupInput
-          placeholder="z. B. warten, das Haus, auf die Folter spannen…"
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter' && !event.nativeEvent.isComposing) {
-              generate()
-            }
-          }}
-        />
-        <InputGroupAddon align="inline-end">
-          <InputGroupButton
-            variant="default"
-            size="sm"
-            disabled={!query.trim() || status === 'loading'}
-            onClick={generate}
-          >
-            {status === 'loading' ? (
-              <Spinner />
+      <div className="mt-8 flex flex-col gap-6 lg:mt-12">
+        <InputGroup className="h-12 rounded-xl">
+          <InputGroupAddon>
+            <Sparkles className="text-primary" />
+          </InputGroupAddon>
+          <InputGroupInput
+            placeholder="z. B. warten, das Haus, auf die Folter spannen…"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' && !event.nativeEvent.isComposing) {
+                generate()
+              }
+            }}
+          />
+          <InputGroupAddon align="inline-end">
+            <InputGroupButton
+              variant="default"
+              size="sm"
+              disabled={!query.trim() || status === 'loading'}
+              onClick={generate}
+            >
+              {status === 'loading' ? (
+                <Spinner />
+              ) : (
+                <Sparkles data-icon="inline-start" />
+              )}
+              Generieren
+            </InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
+
+        {status === 'loading' && <LoadingPreview />}
+
+        {status === 'done' && card && (
+          <div className="flex flex-col gap-3">
+            <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+              {existingId ? 'Bereits in der Bibliothek' : 'Vorschau'}
+            </p>
+            {editing ? (
+              <WordForm
+                initial={card}
+                submitLabel="Übernehmen"
+                onSubmit={(values) => {
+                  setCard({ ...card, ...values })
+                  setEditing(false)
+                }}
+                onCancel={() => setEditing(false)}
+              />
             ) : (
-              <Sparkles data-icon="inline-start" />
+              <GeneratedCardView
+                card={card}
+                lang={lang}
+                imageUrl={imageUrl}
+                saving={saving}
+                onSave={save}
+                onEdit={() => setEditing(true)}
+              />
             )}
-            Generieren
-          </InputGroupButton>
-        </InputGroupAddon>
-      </InputGroup>
-
-      {status === 'loading' && <LoadingPreview />}
-
-      {status === 'done' && card && (
-        <div className="flex flex-col gap-3">
-          <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
-            {existingId ? 'Bereits in der Bibliothek' : 'Vorschau'}
-          </p>
-          {editing ? (
-            <WordForm
-              initial={card}
-              submitLabel="Übernehmen"
-              onSubmit={(values) => {
-                setCard({ ...card, ...values })
-                setEditing(false)
-              }}
-              onCancel={() => setEditing(false)}
-            />
-          ) : (
-            <GeneratedCardView
-              card={card}
-              lang={lang}
-              imageUrl={imageUrl}
-              saving={saving}
-              onSave={save}
-              onEdit={() => setEditing(true)}
-            />
-          )}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
@@ -192,7 +194,7 @@ function LoadingPreview() {
   return (
     <Card className="overflow-hidden p-0">
       <Skeleton className="aspect-21/9 w-full rounded-none" />
-      <CardContent className="flex flex-col gap-4 p-5">
+      <CardContent className="flex flex-col gap-4 p-6">
         <div className="flex items-center justify-between">
           <Skeleton className="h-7 w-40" />
           <Skeleton className="h-5 w-12 rounded-full" />
@@ -239,12 +241,12 @@ function GeneratedCardView({
         )}
         <LevelBadge
           level={card.level}
-          className="absolute top-3 right-3 h-6 px-2.5 shadow-sm"
+          className="absolute top-4 right-4 h-6 px-2 shadow-sm"
         />
       </div>
 
-      <CardContent className="flex flex-col gap-5 p-5">
-        <div className="flex flex-wrap items-end justify-between gap-3">
+      <CardContent className="flex flex-col gap-6 p-6">
+        <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <h2 className="font-display text-3xl font-bold tracking-tight">
               {card.article && (

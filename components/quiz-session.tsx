@@ -93,8 +93,8 @@ export function QuizSession({ questions }: { questions: Question[] }) {
   const isCorrect = selected === question.answer
 
   return (
-    <div className="mx-auto flex min-h-[70vh] max-w-md flex-col gap-5">
-      <div className="flex items-center gap-3">
+    <div className="mx-auto flex min-h-[70vh] max-w-md flex-col gap-6">
+      <div className="flex items-center gap-4">
         <Button
           variant="ghost"
           size="icon-sm"
@@ -127,7 +127,7 @@ export function QuizSession({ questions }: { questions: Question[] }) {
         </CardContent>
       </Card>
 
-      <div className="flex flex-col gap-2.5">
+      <div className="flex flex-col gap-3">
         {question.options.map((option) => {
           const isAnswer = option === question.answer
           const isPicked = option === selected
@@ -139,7 +139,7 @@ export function QuizSession({ questions }: { questions: Question[] }) {
               onClick={() => choose(option)}
               disabled={answered}
               className={cn(
-                'flex items-center justify-between rounded-2xl border px-4 py-3.5 text-left font-medium transition-all disabled:cursor-default',
+                'flex min-h-12 items-center justify-between rounded-2xl border px-4 py-3 text-left font-medium transition-all disabled:cursor-default',
                 !answered &&
                   'border-border bg-card hover:border-primary/40 hover:bg-secondary',
                 answered &&
@@ -160,7 +160,7 @@ export function QuizSession({ questions }: { questions: Question[] }) {
         })}
       </div>
 
-      <div className="mt-auto flex items-center justify-between gap-3">
+      <div className="mt-auto flex items-center justify-between gap-4">
         <p
           className={cn(
             'text-sm font-medium',

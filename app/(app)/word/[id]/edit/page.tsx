@@ -28,7 +28,7 @@ export default async function EditWordPage({
   const { data: auth } = await supabase.auth.getClaims()
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-5">
+    <div className="mx-auto flex max-w-2xl flex-col gap-6">
       <BackButton href={`/word/${word.id}`} label="Zurück zum Wort" />
 
       <div className="flex items-center gap-4">

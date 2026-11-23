@@ -149,8 +149,8 @@ export function StudySession({
   const germanFirst = direction === 'de'
 
   return (
-    <div className="mx-auto flex min-h-[70vh] max-w-md flex-col gap-5">
-      <div className="flex items-center gap-3">
+    <div className="mx-auto flex min-h-[70vh] max-w-md flex-col gap-6">
+      <div className="flex items-center gap-4">
         <Button
           variant="ghost"
           size="icon-sm"
@@ -213,7 +213,7 @@ export function StudySession({
               </span>
             </div>
 
-            <div className="absolute inset-0 flex transform-[rotateY(180deg)] flex-col items-center justify-center gap-5 rounded-3xl border border-primary/20 bg-linear-to-b from-primary/10 to-teal/5 p-8 [backface-visibility:hidden]">
+            <div className="absolute inset-0 flex transform-[rotateY(180deg)] flex-col items-center justify-center gap-6 rounded-3xl border border-primary/20 bg-linear-to-b from-primary/10 to-teal/5 p-8 [backface-visibility:hidden]">
               {germanFirst ? translationSide : germanSide}
               {example}
             </div>
@@ -221,7 +221,7 @@ export function StudySession({
         </div>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
         <Button
           variant="outline"
           className={cn(

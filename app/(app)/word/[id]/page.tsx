@@ -43,7 +43,7 @@ export default async function WordPage({ params }: PageProps<'/word/[id]'>) {
     !word.image && word.hasImageConcept && word.createdBy === auth?.claims?.sub
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-5">
+    <div className="mx-auto flex max-w-2xl flex-col gap-6">
       <div className="flex items-center justify-between">
         <BackButton href="/" label="Zurück zur Bibliothek" />
 
@@ -74,10 +74,10 @@ export default async function WordPage({ params }: PageProps<'/word/[id]'>) {
             priority
           />
           <div className="absolute inset-x-0 bottom-0 h-28 bg-linear-to-t from-black/75 via-black/30 to-transparent" />
-          <div className="absolute top-3 right-3">
-            <LevelBadge level={word.level} className="h-6 px-2.5 shadow-sm" />
+          <div className="absolute top-4 right-4">
+            <LevelBadge level={word.level} className="h-6 px-2 shadow-sm" />
           </div>
-          <div className="absolute inset-x-4 bottom-3 flex items-end justify-between gap-3">
+          <div className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-4">
             <h1 className="font-display text-3xl font-bold tracking-tight text-white drop-shadow-sm sm:text-4xl">
               {word.article && (
                 <span className="opacity-90">{word.article} </span>
@@ -88,8 +88,8 @@ export default async function WordPage({ params }: PageProps<'/word/[id]'>) {
           </div>
         </div>
 
-        <CardContent className="flex flex-col gap-5 p-5">
-          <div className="flex flex-wrap items-center justify-between gap-3">
+        <CardContent className="flex flex-col gap-6 p-6">
+          <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <p className="text-lg font-medium">
                 {translate(word.translations, lang)}
