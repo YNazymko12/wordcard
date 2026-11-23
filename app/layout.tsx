@@ -18,9 +18,9 @@ const jakarta = Plus_Jakarta_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'Wortkarte — Deutsch-Vokabeltrainer',
+  title: 'Wortkarte: Deutsch lernen mit eigenen Vokabelkarten',
   description:
-    'Vokabelkarten für Deutsch: Artikel, Verbformen, CEFR-Niveau und Beispielsätze.',
+    'Jedes Wort kommt mit seinen Formen, zwei Beispielsätzen und der Übersetzung ins Russische, Ukrainische oder Englische.',
 }
 
 export default async function RootLayout({ children }: LayoutProps<'/'>) {

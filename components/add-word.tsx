@@ -119,7 +119,7 @@ export function AddWord({ lang }: { lang: TargetLang }) {
           Wort hinzufügen
         </h1>
         <p className="text-base text-muted-foreground">
-          Gib ein deutsches Wort oder eine Wendung ein — die Karte entsteht
+          Gib ein deutsches Wort oder eine Wendung ein. Die Karte entsteht
           automatisch.
         </p>
       </header>
@@ -227,7 +227,7 @@ function GeneratedCardView({
 
   return (
     <Card className="overflow-hidden p-0">
-      <div className="relative flex aspect-21/9 items-center justify-center bg-linear-to-br from-primary/15 to-teal/10">
+      <div className="relative flex aspect-21/9 items-center justify-center bg-secondary">
         {imageUrl ? (
           <WordImage
             src={imageUrl}

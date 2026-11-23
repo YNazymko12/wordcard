@@ -341,7 +341,7 @@ export function WordForm({
                             event.target.value,
                           )
                         }
-                        aria-label={`${LANG_LABEL[lang]} — Beispiel ${index + 1}`}
+                        aria-label={`${LANG_LABEL[lang]}, Beispiel ${index + 1}`}
                         placeholder={LANG_LABEL[lang]}
                       />
                     ))}

@@ -13,7 +13,7 @@ export function WordImage({
 }) {
   if (!src) {
     return (
-      <div className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-primary/15 to-teal/10">
+      <div className="absolute inset-0 flex items-center justify-center bg-secondary">
         <span className="font-display text-5xl font-bold text-primary/25">
           {word.charAt(0).toUpperCase()}
         </span>

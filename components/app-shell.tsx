@@ -2,14 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import {
-  BookOpen,
-  ClipboardList,
-  LayoutGrid,
-  LogOut,
-  Plus,
-  Sparkles,
-} from 'lucide-react'
+import { BookOpen, ClipboardList, LayoutGrid, LogOut, Plus } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { LangToggle } from '@/components/lang-toggle'
@@ -27,7 +20,7 @@ function Logo() {
   return (
     <div className="flex items-center gap-3">
       <div className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm shadow-primary/30">
-        <Sparkles className="size-5" />
+        <span className="font-display text-lg leading-none font-bold">W</span>
       </div>
       <div className="hidden leading-tight sm:block">
         <p className="font-display text-lg font-bold tracking-tight">

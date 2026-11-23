@@ -215,7 +215,7 @@ export function StudySession({
               </span>
             </div>
 
-            <div className="absolute inset-0 flex transform-[rotateY(180deg)] flex-col items-center justify-center gap-6 rounded-3xl border border-primary/20 bg-linear-to-b from-primary/10 to-teal/5 p-8 [backface-visibility:hidden]">
+            <div className="absolute inset-0 flex transform-[rotateY(180deg)] flex-col items-center justify-center gap-6 rounded-3xl border border-primary/20 bg-primary/5 p-8 [backface-visibility:hidden]">
               {germanFirst ? translationSide : germanSide}
               {example}
             </div>
