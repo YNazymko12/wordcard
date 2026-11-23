@@ -95,7 +95,7 @@ export default async function WordPage({ params }: PageProps<'/word/[id]'>) {
                 {translate(word.translations, lang)}
               </p>
               {word.article && (
-                <p className={cn('text-sm', ARTICLE_COLOR[word.article])}>
+                <p className={cn('text-label', ARTICLE_COLOR[word.article])}>
                   {word.article} · {ARTICLE_LABEL[word.article]}
                 </p>
               )}

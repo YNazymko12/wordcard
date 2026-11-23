@@ -119,7 +119,7 @@ export function StudySession({
 
   const germanSide = (
     <>
-      <span className="text-xs font-medium tracking-widest text-muted-foreground uppercase">
+      <span className="text-label font-medium text-muted-foreground">
         {TYPE_LABEL[card.type]}
       </span>
       <p className="text-center font-display text-4xl font-bold tracking-tight">
@@ -139,8 +139,10 @@ export function StudySession({
 
   const example = (
     <div className="w-full rounded-2xl border border-border bg-card/70 p-4 text-center">
-      <p className="leading-snug font-medium">{card.examples[0].de}</p>
-      <p className="mt-1 text-sm text-muted-foreground">
+      <p className="text-base leading-snug font-medium">
+        {card.examples[0].de}
+      </p>
+      <p className="mt-1 text-base text-muted-foreground">
         {translate(card.examples[0].translations, lang)}
       </p>
     </div>
@@ -208,7 +210,7 @@ export function StudySession({
                 className="absolute top-4 left-4"
               />
               {germanFirst ? germanSide : translationSide}
-              <span className="text-xs text-muted-foreground">
+              <span className="text-label text-muted-foreground">
                 Tippen zum Umdrehen
               </span>
             </div>

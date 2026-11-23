@@ -39,7 +39,7 @@ export default async function EditWordPage({
           <h1 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
             Wort bearbeiten
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-base text-muted-foreground">
             {word.article && (
               <span className={ARTICLE_COLOR[word.article]}>
                 {word.article}{' '}

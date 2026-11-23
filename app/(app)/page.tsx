@@ -19,7 +19,7 @@ export default async function LibraryPage() {
         <h1 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
           Bibliothek
         </h1>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-base text-muted-foreground">
           {words.length} Wörter in deiner Sammlung
         </p>
       </header>
@@ -42,10 +42,10 @@ export default async function LibraryPage() {
         {dueCount > 0 && (
           <Card className="flex-row items-center justify-between gap-4 border-primary/20 bg-linear-to-r from-primary/10 to-teal/5 p-4">
             <div>
-              <p className="font-display font-semibold">
+              <p className="font-display text-base font-semibold">
                 {dueCount} Karten warten auf dich
               </p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-base text-muted-foreground">
                 Halte deinen Rhythmus mit einer kurzen Lernsitzung.
               </p>
             </div>

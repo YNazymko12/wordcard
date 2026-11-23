@@ -33,7 +33,7 @@ function Logo() {
         <p className="font-display text-lg font-bold tracking-tight">
           Wortkarte
         </p>
-        <p className="text-[11px] text-muted-foreground">Deutsch-Trainer</p>
+        <p className="text-label text-muted-foreground">Deutsch-Trainer</p>
       </div>
     </div>
   )
@@ -77,13 +77,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <span className="px-1 text-xs font-medium text-muted-foreground">
+            <span className="px-1 text-label font-medium text-muted-foreground">
               Übersetzung
             </span>
             <LangToggle />
           </div>
           <div className="flex flex-col gap-2">
-            <span className="px-1 text-xs font-medium text-muted-foreground">
+            <span className="px-1 text-label font-medium text-muted-foreground">
               Design
             </span>
             <ThemeToggle />
@@ -126,7 +126,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             key={href}
             href={href}
             className={cn(
-              'flex h-16 flex-col items-center justify-center gap-1 text-[11px] font-medium transition-colors',
+              'flex h-16 flex-col items-center justify-center gap-1 text-label font-medium transition-colors',
               isActive(href) ? 'text-primary' : 'text-muted-foreground',
             )}
           >

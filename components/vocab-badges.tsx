@@ -17,7 +17,7 @@ export function LevelBadge({
   return (
     <span
       className={cn(
-        'inline-flex h-5 shrink-0 items-center justify-center rounded-full px-2 text-xs font-semibold tracking-wide tabular-nums',
+        'inline-flex h-6 shrink-0 items-center justify-center rounded-full px-2 text-label font-semibold tracking-wide tabular-nums',
         LEVEL_CLASSES[level],
         className,
       )}
@@ -35,7 +35,10 @@ export function TypeBadge({
   className?: string
 }) {
   return (
-    <Badge variant="outline" className={cn('font-medium', className)}>
+    <Badge
+      variant="outline"
+      className={cn('text-label font-medium', className)}
+    >
       {TYPE_LABEL[type]}
     </Badge>
   )

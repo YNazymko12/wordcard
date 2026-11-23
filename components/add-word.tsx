@@ -118,7 +118,7 @@ export function AddWord({ lang }: { lang: TargetLang }) {
         <h1 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
           Wort hinzufügen
         </h1>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-base text-muted-foreground">
           Gib ein deutsches Wort oder eine Wendung ein — die Karte entsteht
           automatisch.
         </p>
@@ -160,7 +160,7 @@ export function AddWord({ lang }: { lang: TargetLang }) {
 
         {status === 'done' && card && (
           <div className="flex flex-col gap-3">
-            <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+            <p className="text-label font-semibold text-muted-foreground">
               {existingId ? 'Bereits in der Bibliothek' : 'Vorschau'}
             </p>
             {editing ? (

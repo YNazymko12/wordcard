@@ -116,7 +116,7 @@ export function QuizSession({ questions }: { questions: Question[] }) {
       <Card className="gap-0 p-0">
         <CardContent className="flex flex-col items-center gap-3 p-8 text-center">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-medium tracking-widest text-muted-foreground uppercase">
+            <span className="text-label font-medium text-muted-foreground">
               {question.prompt}
             </span>
             <LevelBadge level={question.level} />
@@ -163,7 +163,7 @@ export function QuizSession({ questions }: { questions: Question[] }) {
       <div className="mt-auto flex items-center justify-between gap-4">
         <p
           className={cn(
-            'text-sm font-medium',
+            'text-base font-medium',
             !answered && 'invisible',
             isCorrect ? 'text-success' : 'text-destructive',
           )}

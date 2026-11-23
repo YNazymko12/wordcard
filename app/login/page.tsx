@@ -12,7 +12,7 @@ export default function LoginPage() {
         <h1 className="font-display text-2xl font-bold tracking-tight">
           Willkommen bei Wortkarte
         </h1>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-base text-muted-foreground">
           Melde dich an, um deine Wörter zu sehen.
         </p>
       </div>

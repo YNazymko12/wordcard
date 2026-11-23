@@ -32,7 +32,7 @@ export function StatCard({
       </div>
       <div className="leading-tight">
         <p className="font-display text-2xl font-bold tabular-nums">{value}</p>
-        <p className="text-xs text-muted-foreground">{label}</p>
+        <p className="text-label text-muted-foreground">{label}</p>
       </div>
     </Card>
   )

@@ -27,7 +27,7 @@ export function WordCard({ word, lang }: { word: Word; lang: TargetLang }) {
             className="absolute top-2 right-2 shadow-sm"
           />
           {word.dueForReview && (
-            <span className="absolute bottom-2 left-2 inline-flex h-5 items-center gap-1 rounded-full bg-background/85 px-2 text-[10px] font-medium backdrop-blur sm:top-2 sm:bottom-auto">
+            <span className="absolute bottom-2 left-2 inline-flex h-6 items-center gap-1 rounded-full bg-background/85 px-2 text-label font-medium backdrop-blur sm:top-2 sm:bottom-auto">
               <Clock className="size-3" />
               Fällig
             </span>
@@ -44,10 +44,10 @@ export function WordCard({ word, lang }: { word: Word; lang: TargetLang }) {
             {word.word}
           </p>
           <div className="flex items-center justify-between gap-2">
-            <p className="truncate text-xs text-muted-foreground">
+            <p className="truncate text-sm text-muted-foreground">
               {translate(word.translations, lang)}
             </p>
-            <span className="shrink-0 text-[11px] font-medium text-muted-foreground">
+            <span className="shrink-0 text-label font-medium text-muted-foreground">
               {TYPE_LABEL[word.type]}
             </span>
           </div>
