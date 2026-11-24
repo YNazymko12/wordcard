@@ -62,15 +62,18 @@ export function StudySession({
 
   if (session.length === 0) {
     return (
-      <div className="mx-auto flex max-w-md flex-col items-center gap-4 py-16 text-center">
+      <div className="mx-auto flex max-w-md flex-1 flex-col items-center justify-center text-center">
         <div className="flex size-16 items-center justify-center rounded-2xl bg-success/15 text-success">
           <Check className="size-8" />
         </div>
-        <h1 className="font-display text-2xl font-bold">Alles wiederholt</h1>
-        <p className="text-muted-foreground">
+        <h1 className="mt-8 font-display text-2xl font-bold">
+          Alles wiederholt
+        </h1>
+        <p className="mt-2 text-muted-foreground">
           Für heute sind keine Karten fällig.
         </p>
         <Button
+          className="mt-12"
           variant="outline"
           nativeButton={false}
           render={<Link href="/" />}
@@ -83,21 +86,21 @@ export function StudySession({
 
   if (done) {
     return (
-      <div className="mx-auto flex max-w-md flex-col items-center gap-6 py-12 text-center">
+      <div className="mx-auto flex max-w-md flex-1 flex-col items-center justify-center text-center">
         <div className="flex size-16 items-center justify-center rounded-2xl bg-success/15 text-success">
           <Check className="size-8" />
         </div>
-        <div className="flex flex-col gap-1">
-          <h1 className="font-display text-2xl font-bold">Sitzung beendet</h1>
-          <p className="text-muted-foreground">
-            Du wusstest{' '}
-            <span className="font-semibold text-foreground">
-              {known} von {session.length}
-            </span>{' '}
-            Karten.
-          </p>
-        </div>
-        <div className="flex gap-2">
+        <h1 className="mt-8 font-display text-2xl font-bold">
+          Sitzung beendet
+        </h1>
+        <p className="mt-2 text-muted-foreground">
+          Du wusstest{' '}
+          <span className="font-semibold text-foreground">
+            {known} von {session.length}
+          </span>{' '}
+          Karten.
+        </p>
+        <div className="mt-12 flex gap-3">
           <Button
             variant="outline"
             nativeButton={false}
@@ -151,7 +154,7 @@ export function StudySession({
   const germanFirst = direction === 'de'
 
   return (
-    <div className="mx-auto flex min-h-[70vh] max-w-md flex-col gap-6">
+    <div className="mx-auto flex max-w-md flex-1 flex-col gap-6">
       <div className="flex items-center gap-4">
         <Button
           variant="ghost"
@@ -168,83 +171,89 @@ export function StudySession({
         </span>
       </div>
 
-      <ToggleGroup
-        value={[direction]}
-        onValueChange={(value) => {
-          const next = value[0] as Direction | undefined
-          if (next) {
-            setDirection(next)
-            setFlipped(false)
-          }
-        }}
-        variant="outline"
-        size="sm"
-        spacing={0}
-        className="self-center"
-        aria-label="Lernrichtung"
-      >
-        <ToggleGroupItem value="de">DE → {lang.toUpperCase()}</ToggleGroupItem>
-        <ToggleGroupItem value="translation">
-          {lang.toUpperCase()} → DE
-        </ToggleGroupItem>
-      </ToggleGroup>
-
-      <div className="flex flex-1 items-center [perspective:1600px]">
-        <div className="relative h-96 w-full">
-          <PronounceButton
-            text={card.word}
-            variant="secondary"
-            className="absolute top-4 right-4 z-10"
-          />
-          <button
-            key={card.id}
-            type="button"
-            onClick={() => setFlipped((value) => !value)}
-            className="absolute inset-0 transition-transform duration-500 [transform-style:preserve-3d]"
-            style={{ transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
-            aria-label="Karte umdrehen"
-          >
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 rounded-3xl border border-border bg-card p-8 shadow-lg shadow-primary/5 [backface-visibility:hidden]">
-              <LevelBadge
-                level={card.level}
-                className="absolute top-4 left-4"
-              />
-              {germanFirst ? germanSide : translationSide}
-              <span className="text-label text-muted-foreground">
-                Tippen zum Umdrehen
-              </span>
-            </div>
-
-            <div className="absolute inset-0 flex transform-[rotateY(180deg)] flex-col items-center justify-center gap-6 rounded-3xl border border-primary/20 bg-primary/5 p-8 [backface-visibility:hidden]">
-              {germanFirst ? translationSide : germanSide}
-              {example}
-            </div>
-          </button>
-        </div>
-      </div>
-
-      <div className="flex items-center gap-4">
-        <Button
+      <div className="flex flex-1 flex-col justify-center gap-6">
+        <ToggleGroup
+          value={[direction]}
+          onValueChange={(value) => {
+            const next = value[0] as Direction | undefined
+            if (next) {
+              setDirection(next)
+              setFlipped(false)
+            }
+          }}
           variant="outline"
-          className={cn(
-            'h-12 flex-1 transition-opacity',
-            !flipped && 'invisible',
-          )}
-          onClick={() => next(false)}
+          size="sm"
+          spacing={0}
+          className="self-center"
+          aria-label="Lernrichtung"
         >
-          <ArrowLeft data-icon="inline-start" />
-          Nochmal
-        </Button>
-        <Button
-          className={cn(
-            'h-12 flex-1 transition-opacity',
-            !flipped && 'invisible',
-          )}
-          onClick={() => next(true)}
-        >
-          Gewusst
-          <ArrowRight data-icon="inline-end" />
-        </Button>
+          <ToggleGroupItem value="de">
+            DE → {lang.toUpperCase()}
+          </ToggleGroupItem>
+          <ToggleGroupItem value="translation">
+            {lang.toUpperCase()} → DE
+          </ToggleGroupItem>
+        </ToggleGroup>
+
+        <div className="flex items-center [perspective:1600px]">
+          <div className="relative h-96 w-full">
+            <PronounceButton
+              text={card.word}
+              variant="secondary"
+              className="absolute top-4 right-4 z-10"
+            />
+            <button
+              key={card.id}
+              type="button"
+              onClick={() => setFlipped((value) => !value)}
+              className="absolute inset-0 transition-transform duration-500 [transform-style:preserve-3d]"
+              style={{
+                transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+              }}
+              aria-label="Karte umdrehen"
+            >
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 rounded-3xl border border-border bg-card p-8 shadow-lg shadow-primary/5 [backface-visibility:hidden]">
+                <LevelBadge
+                  level={card.level}
+                  className="absolute top-4 left-4"
+                />
+                {germanFirst ? germanSide : translationSide}
+                <span className="text-label text-muted-foreground">
+                  Tippen zum Umdrehen
+                </span>
+              </div>
+
+              <div className="absolute inset-0 flex transform-[rotateY(180deg)] flex-col items-center justify-center gap-6 rounded-3xl border border-primary/20 bg-primary/5 p-8 [backface-visibility:hidden]">
+                {germanFirst ? translationSide : germanSide}
+                {example}
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <Button
+            variant="outline"
+            className={cn(
+              'h-12 flex-1 transition-opacity',
+              !flipped && 'invisible',
+            )}
+            onClick={() => next(false)}
+          >
+            <ArrowLeft data-icon="inline-start" />
+            Nochmal
+          </Button>
+          <Button
+            className={cn(
+              'h-12 flex-1 transition-opacity',
+              !flipped && 'invisible',
+            )}
+            onClick={() => next(true)}
+          >
+            Gewusst
+            <ArrowRight data-icon="inline-end" />
+          </Button>
+        </div>
       </div>
     </div>
   )

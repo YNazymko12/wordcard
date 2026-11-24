@@ -111,13 +111,13 @@ export function WordLibrary({
       </div>
 
       {filtered.length === 0 ? (
-        <Empty className="rounded-2xl border">
+        <Empty className="min-h-64 rounded-2xl border">
           <EmptyHeader>
             <EmptyMedia variant="icon">
               <Search />
             </EmptyMedia>
-            <EmptyTitle>Keine Wörter gefunden</EmptyTitle>
-            <EmptyDescription>
+            <EmptyTitle className="text-base">Keine Wörter gefunden</EmptyTitle>
+            <EmptyDescription className="text-base">
               Ändere die Suche oder setze die Filter zurück.
             </EmptyDescription>
           </EmptyHeader>
