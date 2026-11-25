@@ -113,7 +113,7 @@ export function QuizSession({ questions }: { questions: Question[] }) {
         </span>
       </div>
 
-      <Card className="gap-0 p-0">
+      <Card className="gap-0 p-0 sm:mt-12">
         <CardContent className="flex flex-col items-center gap-3 p-8 text-center">
           <div className="flex items-center gap-2">
             <span className="text-xs font-medium tracking-widest text-muted-foreground uppercase">
@@ -160,7 +160,7 @@ export function QuizSession({ questions }: { questions: Question[] }) {
         })}
       </div>
 
-      <div className="mt-auto flex items-center justify-between gap-3">
+      <div className="flex items-center justify-between gap-3">
         <p
           className={cn(
             'text-sm font-medium',

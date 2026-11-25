@@ -166,28 +166,31 @@ export function StudySession({
         </span>
       </div>
 
-      <ToggleGroup
-        value={[direction]}
-        onValueChange={(value) => {
-          const next = value[0] as Direction | undefined
-          if (next) {
-            setDirection(next)
-            setFlipped(false)
-          }
-        }}
-        variant="outline"
-        size="sm"
-        spacing={0}
-        className="self-center"
-        aria-label="Lernrichtung"
-      >
-        <ToggleGroupItem value="de">DE → {lang.toUpperCase()}</ToggleGroupItem>
-        <ToggleGroupItem value="translation">
-          {lang.toUpperCase()} → DE
-        </ToggleGroupItem>
-      </ToggleGroup>
+      <div className="flex flex-1 items-center justify-center">
+        <ToggleGroup
+          value={[direction]}
+          onValueChange={(value) => {
+            const next = value[0] as Direction | undefined
+            if (next) {
+              setDirection(next)
+              setFlipped(false)
+            }
+          }}
+          variant="outline"
+          size="sm"
+          spacing={0}
+          aria-label="Lernrichtung"
+        >
+          <ToggleGroupItem value="de">
+            DE → {lang.toUpperCase()}
+          </ToggleGroupItem>
+          <ToggleGroupItem value="translation">
+            {lang.toUpperCase()} → DE
+          </ToggleGroupItem>
+        </ToggleGroup>
+      </div>
 
-      <div className="flex flex-1 items-center [perspective:1600px]">
+      <div className="flex flex-1 items-start [perspective:1600px]">
         <div className="relative h-96 w-full">
           <PronounceButton
             text={card.word}
