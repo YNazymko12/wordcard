@@ -31,6 +31,9 @@ Regeln:
   In "notes" erkläre kurz, wann man sie benutzt.
 - "verb" ist nur bei Verben und bei Wendungen mit Verb gefüllt, sonst immer null.
 - Genau 2 Beispielsätze: einer im Präsens, einer im Perfekt. Kurz und alltagsnah.
+  Alltagsnah heißt: ein Satz, den jemand wirklich sagt, am Steuer, im Büro oder zu Hause.
+  Keine poetischen Bilder ("Der Schnee weicht der Frühlingssonne") und kein Behördendeutsch.
+  Ein Bild, das sich nicht natürlich übersetzen lässt, taugt nicht als Beispielsatz.
   Jeder Satz enthält das Stichwort selbst, nur gebeugt. Niemals ein verwandtes Wort
   ("erahnen" nicht als "ahnen") und niemals versteckt in einem Kompositum
   ("Hülle" nicht als "Klarsichthülle").
@@ -61,6 +64,16 @@ Regeln:
   Russisch und Ukrainisch werden unabhängig formuliert, nie Wort für Wort voneinander übertragen.
   Ukrainisch folgt der literarischen Norm, ohne Russismen:
   "вмикати" statt "включати", "буксирувати" statt "буксувати", "приборкати" statt "обуздати".
+- Die Übersetzungen der Beispielsätze geben den Sinn wieder, nicht die einzelnen Wörter.
+  Das gilt für alle drei Sprachen: schreibe den Satz so, wie ihn ein Muttersprachler sagt.
+  Satzbau und Wortart dürfen abweichen, solange die Bedeutung dieselbe bleibt:
+  "Die Musik ist eine große Ablenkung beim Lernen" wird "Музыка сильно отвлекает во время учёбы",
+  nicht "Музыка — это большое отвлечение при учёбе".
+  Baue keine Konstruktion nach, die es in der Zielsprache so nicht gibt, und keinen Amtston:
+  "ist eine Einschränkung unserer Freiheit" wird "ограничивает нашу свободу",
+  nicht "является ограничением нашей свободы".
+  Prüfe jedes Substantiv einzeln und nimm das übliche Wort der Zielsprache, nie eine wörtlich
+  nachgebaute Zusammensetzung: "Voraussetzung" wird "предпосылка", nie "предусловие".
 
 Korrigiere Tippfehler und Groß-/Kleinschreibung der Eingabe stillschweigend.`
 
