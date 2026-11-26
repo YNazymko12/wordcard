@@ -1,7 +1,12 @@
 import { createServerClient, parseCookieHeader } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-const PUBLIC_ROUTES = ['/login']
+// Reachable signed out; a signed-in visitor is sent to the library instead.
+const AUTH_ROUTES = ['/login']
+
+// Always reachable, in either direction: these finish a sign-in that is still
+// in flight, so neither redirect may fire.
+const OPEN_ROUTES = ['/auth']
 
 export async function proxy(request: NextRequest) {
   const response = NextResponse.next({ request: { headers: request.headers } })
@@ -26,10 +31,13 @@ export async function proxy(request: NextRequest) {
   const { data } = await supabase.auth.getClaims()
   const signedIn = Boolean(data?.claims)
   const { pathname } = request.nextUrl
-  const isPublic = PUBLIC_ROUTES.some((route) => pathname.startsWith(route))
 
-  if (!signedIn && !isPublic) return redirectTo('/login', request, response)
-  if (signedIn && isPublic) return redirectTo('/', request, response)
+  if (OPEN_ROUTES.some((route) => pathname.startsWith(route))) return response
+
+  const isAuthRoute = AUTH_ROUTES.some((route) => pathname.startsWith(route))
+
+  if (!signedIn && !isAuthRoute) return redirectTo('/login', request, response)
+  if (signedIn && isAuthRoute) return redirectTo('/', request, response)
 
   return response
 }
@@ -41,6 +49,7 @@ function redirectTo(
 ) {
   const url = request.nextUrl.clone()
   url.pathname = pathname
+  url.search = ''
 
   const redirect = NextResponse.redirect(url)
   source.cookies.getAll().forEach((cookie) => redirect.cookies.set(cookie))

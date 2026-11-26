@@ -1,11 +1,19 @@
 import type { Metadata } from 'next'
 import { LoginForm } from '@/components/login-form'
+import { authMessage } from '@/lib/auth-errors'
 
 export const metadata: Metadata = {
   title: 'Anmelden · Wortkarte',
 }
 
-export default function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+  const { fehler } = await searchParams
+  const linkError = typeof fehler === 'string' ? authMessage(fehler) : undefined
+
   return (
     <div className="flex min-h-svh flex-col items-center justify-center gap-8 px-4 py-12">
       <div className="flex flex-col items-center gap-1 text-center">
@@ -17,7 +25,7 @@ export default function LoginPage() {
         </p>
       </div>
 
-      <LoginForm />
+      <LoginForm linkError={linkError} />
     </div>
   )
 }
