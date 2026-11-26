@@ -48,7 +48,11 @@ Regeln:
 - "notes": ein bis zwei vollständige Sätze auf Deutsch zu Plural, Unregelmäßigkeiten oder Besonderheiten.
   Verwende in "notes" KEINE Anführungszeichen — weder „ “ noch " " noch » «.
   Nenne Beispielformen ohne Anführungszeichen: Wird mit ist gebildet. Plural: die Motorhauben.
-  Schreibe jeden Satz zu Ende.
+  Schreibe jeden Satz zu Ende, ausschließlich auf Deutsch, ohne ein Wort in einer anderen Sprache.
+  "notes" meint dieselbe Bedeutung wie die Beispielsätze und die Übersetzungen und widerspricht
+  ihnen nie. Nenne den Bereich, in dem das Wort hier wirklich vorkommt: "Schleifpunkt" gehört
+  zum Auto und nicht zur Metallbearbeitung, "Einmündung" zum Straßenverkehr und nicht zum Fluss,
+  wenn die Beispielsätze von Straßen handeln.
 - "imageConcept": eine kurze englische Beschreibung EINER KONKRETEN SZENE, die das Wort zeigt — niemals eine Definition und niemals abstrakte Begriffe im Bild.
   Konkrete Wörter: einfach der Gegenstand ("a small cozy house with a red roof").
   Abstrakte Wörter, Gefühle, technische Begriffe: eine Alltagsszene oder Metapher, an der man die Bedeutung erkennt.
